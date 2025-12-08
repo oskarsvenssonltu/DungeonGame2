@@ -30,7 +30,7 @@ public class Dungeon {
         room6.addDoor(new Door("ö", room7));
 
         // Skapa spelare
-        System.out.println("Välkommen till Dragon Treasure!");
+        System.out.println("Välkommen till spelet!");
         System.out.print("Skriv ditt namn: ");
         String name = scanner.nextLine();
 

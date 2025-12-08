@@ -51,7 +51,7 @@ public class Dungeon {
             Room next = current.tryDoor(dir);
 
             if (next == null) {
-                System.out.println("Där finns ingen dörr.\n");
+                System.out.println("Testa igen!\n");
             } else {
                 player.moveTo(next);
 

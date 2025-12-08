@@ -31,12 +31,15 @@ public class Dungeon {
 
         // Skapa spelare
         System.out.println("Välkommen till spelet!");
+        
         System.out.print("Skriv ditt namn: ");
         String name = scanner.nextLine();
+        
+        System.out.println("");
 
         Player player = new Player(name, room1);
         
-        System.out.printf("Välkommen %s!\n", name);
+        System.out.printf("Välkommen %s!\n\n", name);
 
         // Loopen för spelet
         boolean running = true;
@@ -44,10 +47,12 @@ public class Dungeon {
         while (running) {
             Room current = player.getCurrentRoom();
             current.doNarrative();
-            System.out.print("> ");
-
+            
+            System.out.print("Välj riktning: ");
             String dir = scanner.nextLine().toLowerCase();
-
+            
+            System.out.println("");
+            
             Room next = current.tryDoor(dir);
 
             if (next == null) {

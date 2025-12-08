@@ -17,14 +17,17 @@ public class Dungeon {
         Room room7 = new Room("Sjunde rummet");
 
         // Koppla dörrar
-        room1.addDoor(new Door("ö", room2));
-        room2.addDoor(new Door("v", room1));
-        room2.addDoor(new Door("n", room3));
+        room1.addDoor(new Door("s", room2));
+        room2.addDoor(new Door("n", room1));
+        room2.addDoor(new Door("s", room3));
+        room2.addDoor(new Door("ö", room5));
         room3.addDoor(new Door("s", room4));
-        room4.addDoor(new Door("s", room5));
+        room3.addDoor(new Door("n", room2));
+        room4.addDoor(new Door("n", room3));
+        room5.addDoor(new Door("v", room2));
         room5.addDoor(new Door("s", room6));
-        room6.addDoor(new Door("s", room7));
-        room7.addDoor(new Door("s", room5));
+        room6.addDoor(new Door("n", room5));
+        room6.addDoor(new Door("ö", room7));
 
         // Skapa spelare
         System.out.println("Välkommen till Dragon Treasure!");
@@ -59,7 +62,7 @@ public class Dungeon {
                 }
             }
         }
-
+        
         scanner.close();
     }
 }

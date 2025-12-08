@@ -32,6 +32,8 @@ public class Dungeon {
         String name = scanner.nextLine();
 
         Player player = new Player(name, room1);
+        
+        System.out.printf("Välkommen %s!\n", name);
 
         // Loopen för spelet
         boolean running = true;
@@ -46,7 +48,7 @@ public class Dungeon {
             Room next = current.tryDoor(dir);
 
             if (next == null) {
-                System.out.println("Du kan inte gå dit.\n");
+                System.out.println("Där finns ingen dörr.\n");
             } else {
                 player.moveTo(next);
 

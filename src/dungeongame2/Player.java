@@ -8,6 +8,10 @@ public class Player {
         this.name = name;
         this.currentRoom = startRoom;
     }
+    
+    public String getName(){
+        return name;
+    }
 
     public Room getCurrentRoom() {
         return currentRoom;

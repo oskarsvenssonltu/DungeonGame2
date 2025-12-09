@@ -27,6 +27,21 @@ public class Room {
         }
     }
 
+   public String getAvailableDirections() {
+    StringBuilder sb = new StringBuilder();
+
+    for (Door d : doors) {
+        if (sb.length() > 0) {
+            sb.append("/");
+        }
+        sb.append(d.getDirection());
+    }
+
+    return sb.toString();
+}
+
+
+    
     public Room tryDoor(String direction) {
         for (Door d : doors) {
             if (d.getDirection().equals(direction)) {

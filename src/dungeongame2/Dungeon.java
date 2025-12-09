@@ -4,18 +4,19 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Dungeon {
-
-    public void playGame() {
-        Scanner scanner = new Scanner(System.in);
+    
+    private ArrayList<Room> rooms = new ArrayList<>();
+    private Room startRoom;
+    private Room lastRoom;
+    
+    private void setupGame() {
         
-        ArrayList<Room> rooms = new ArrayList<>();
-        
-        rooms.add(new Room("Dörren har rasat bakom dig, du kan bara gå en väg."));
-        rooms.add(new Room("Du kommer in i ett mörkt rum, här vill du inte vara kvar."));
-        rooms.add(new Room("Du ser ett konstigt ljus i dörren till söder, vågar du gå in eller tar du den säkra vägen tillbaka?"));
-        rooms.add(new Room("Det starka ljuset kommer från en kista på golvet. Tyvärr kan du inte öppna kistan förrän nästa uppdatering. Gå tillbaka."));
-        rooms.add(new Room("Du kommer in till drakarnas altare. Det luktar bränt och du får snabbt kasta dig ned på marken för att inte bli träffad av den eldsprutande draken. Ta dig till nästa rum eller gå tillbaka."));
-        rooms.add(new Room("Du tog dig förbi draken. Du ser en dörr i slutet av en lång och farlig hängbo, vågra du gå över bron?"));
+        rooms.add(new Room("Dörren har rasat bakom dig, du kan bara gå en väg.\n"));
+        rooms.add(new Room("Du kommer in i ett mörkt rum, här vill du inte vara kvar.\n"));
+        rooms.add(new Room("Du ser ett konstigt ljus genom dörren till söder,\nvågar du gå in eller tar du den säkra vägen tillbaka?\n"));
+        rooms.add(new Room("Det starka ljuset kommer från en kista på golvet.\nTyvärr kan du inte öppna kistan förrän nästa uppdatering.\nGå tillbaka.\n"));
+        rooms.add(new Room("Du kommer in till drakarnas altare.\nDet luktar bränt och du får snabbt kasta dig ned på marken för att\ninte bli träffad av den eldsprutande draken.\nTa dig till nästa rum eller gå tillbaka.\n"));
+        rooms.add(new Room("Du tog dig förbi draken. Till öster ser du en dörr i slutet av\nen lång och farlig hängbo, vågra du gå över bron?\n"));
         rooms.add(new Room("Sista rummet"));
 
         Room i0 = rooms.get(0);
@@ -37,12 +38,22 @@ public class Dungeon {
         i4.addDoor(new Door("s", i5));
         i5.addDoor(new Door("n", i4));
         i5.addDoor(new Door("ö", i6));
+        
+        startRoom = i0;
+        lastRoom = i6;
+    }
+
+    public void playGame() {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Starta setupGame
+        setupGame();
 
         // Skapa spelare
-        System.out.println("Välkommen till spelet! Du är nu inne i Drakarnas-borg, försök att hitta ut med livet i behåll.");
+        System.out.println("Välkommen till spelet!\n\nDu är nu inne i Drakarnas-borg, försök att hitta ut med livet i behåll.\n");
         
         System.out.print("Skriv ditt namn: ");
-        Player player = new Player(scanner.nextLine(), i0);
+        Player player = new Player(scanner.nextLine(), startRoom);
         
         System.out.println("");
         
@@ -68,7 +79,7 @@ public class Dungeon {
                 player.moveTo(next);
 
                 // Slutet
-                if (next == i6) {
+                if (next == lastRoom) {
                     System.out.println("Grattis " + player.getName() + " - du hittade ut! Du är bäst.");
                     running = false;
                 }

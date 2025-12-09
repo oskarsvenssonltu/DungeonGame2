@@ -8,12 +8,12 @@ public class Dungeon {
         Scanner scanner = new Scanner(System.in);
 
         // Skapa rummen
-        Room room1 = new Room("Första rummet");
-        Room room2 = new Room("Andra rummet");
-        Room room3 = new Room("Tredje rummet");
-        Room room4 = new Room("Fjärde rummet");
-        Room room5 = new Room("Femte rummet");
-        Room room6 = new Room("Sjätte rummet");
+        Room room1 = new Room("Dörren har rasat bakom dig, du kan bara gå en väg.");
+        Room room2 = new Room("Du kommer in i ett mörkt rum, här vill du inte vara kvar.");
+        Room room3 = new Room("Du ser ett konstigt ljus i dörren till söder, vågar du gå in eller tar du den säkra vägen tillbaka?");
+        Room room4 = new Room("Det starka ljuset kommer från en kista på golvet. Tyvärr kan du inte öppna kistan förräns nästa uppdatering. Gå tillbaka.");
+        Room room5 = new Room("Du kommer in till drakarnas altare. Det luktar brännt och du får snabbt kasta dig ned på marken för att inte bli träffad av den eldsprutande draken. Ta dig till nästa rum eller gå tillbaka.");
+        Room room6 = new Room("Du tog dig förbi draken. Du der en dörr i slutet av en lång och farlig hängbo, vågra du gå över bron?");
         Room room7 = new Room("Sjunde rummet");
 
         // Koppla dörrar
@@ -30,7 +30,7 @@ public class Dungeon {
         room6.addDoor(new Door("ö", room7));
 
         // Skapa spelare
-        System.out.println("Välkommen till spelet!");
+        System.out.println("Välkommen till spelet! Du är nu inne i Drakarnas-borg, försök att hitta ut med livet i behåll.");
         
         System.out.print("Skriv ditt namn: ");
         String name = scanner.nextLine();

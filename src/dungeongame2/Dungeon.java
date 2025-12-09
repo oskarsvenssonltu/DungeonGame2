@@ -12,8 +12,8 @@ public class Dungeon {
         Room room2 = new Room("Du kommer in i ett mörkt rum, här vill du inte vara kvar.");
         Room room3 = new Room("Du ser ett konstigt ljus i dörren till söder, vågar du gå in eller tar du den säkra vägen tillbaka?");
         Room room4 = new Room("Det starka ljuset kommer från en kista på golvet. Tyvärr kan du inte öppna kistan förräns nästa uppdatering. Gå tillbaka.");
-        Room room5 = new Room("Du kommer in till drakarnas altare. Det luktar brännt och du får snabbt kasta dig ned på marken för att inte bli träffad av den eldsprutande draken. Ta dig till nästa rum eller gå tillbaka.");
-        Room room6 = new Room("Du tog dig förbi draken. Du der en dörr i slutet av en lång och farlig hängbo, vågra du gå över bron?");
+        Room room5 = new Room("Du kommer in till drakarnas altare. Det luktar bränt och du får snabbt kasta dig ned på marken för att inte bli träffad av den eldsprutande draken. Ta dig till nästa rum eller gå tillbaka.");
+        Room room6 = new Room("Du tog dig förbi draken. Du ser en dörr i slutet av en lång och farlig hängbo, vågra du gå över bron?");
         Room room7 = new Room("Sjunde rummet");
 
         // Koppla dörrar

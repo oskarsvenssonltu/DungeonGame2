@@ -3,11 +3,11 @@ package dungeongame2;
 public class DungeonGame2 {
 
     public static void main(String[] args) {
-        // Startar spelet
+
+        // Skapar nytt spel (Dungeon)
+        Dungeon dungeon = new Dungeon(); 
         
-        Dungeon dungeon = new Dungeon();
-        
-        dungeon.playGame();
+        // Spelat startar
+        dungeon.playGame(); 
     }
-    
 }

@@ -33,13 +33,11 @@ public class Dungeon {
         System.out.println("Välkommen till spelet! Du är nu inne i Drakarnas-borg, försök att hitta ut med livet i behåll.");
         
         System.out.print("Skriv ditt namn: ");
-        String name = scanner.nextLine();
+        Player player = new Player(scanner.nextLine(), room1);
         
         System.out.println("");
-
-        Player player = new Player(name, room1);
         
-        System.out.printf("Välkommen %s!\n\n", name);
+        System.out.printf("Välkommen %s!\n\n", player.getName());
 
         // Loopen för spelet
         boolean running = true;
@@ -62,7 +60,7 @@ public class Dungeon {
 
                 // Slutet
                 if (next == room7) {
-                    System.out.println("Grattis - du hittade ut! Du är bäst.");
+                    System.out.println("Grattis " + player.getName() + " - du hittade ut! Du är bäst.");
                     running = false;
                 }
             }

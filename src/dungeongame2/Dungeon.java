@@ -18,7 +18,7 @@ public class Dungeon {
         rooms.add(new Room("Du ser ett konstigt ljus genom dörren till söder,\nvågar du gå in eller tar du den säkra vägen tillbaka?\n"));
         rooms.add(new Room("Det starka ljuset kommer från en kista på golvet.\nTyvärr kan du inte öppna kistan förrän nästa uppdatering.\nGå tillbaka.\n"));
         rooms.add(new Room("Du kommer in till drakarnas altare.\nDet luktar bränt och du får snabbt kasta dig ned på marken för att\ninte bli träffad av den eldsprutande draken.\nTa dig till nästa rum eller gå tillbaka.\n"));
-        rooms.add(new Room("Du tog dig förbi draken. Till öster ser du en dörr i slutet av\nen lång och farlig hängbo, vågra du gå över bron?\n"));
+        rooms.add(new Room("Du tog dig förbi draken. Till öster ser du en dörr i slutet av\nen lång och farlig hängbro, vågra du gå över bron?\n"));
         rooms.add(new Room("Sista rummet"));
         
         // Variabelnamn för att koppla dörrar

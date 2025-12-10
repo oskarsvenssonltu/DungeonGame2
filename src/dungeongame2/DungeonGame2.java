@@ -4,10 +4,10 @@ public class DungeonGame2 {
 
     public static void main(String[] args) {
 
-        // Skapar nytt spel (Dungeon)
+        // Skapar ett nytt spel (Dungeon)
         Dungeon dungeon = new Dungeon(); 
         
-        // Spelat startar
+        // Startar spelet genom att köra spelets huvudloop.
         dungeon.playGame(); 
     }
 }

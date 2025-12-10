@@ -28,20 +28,20 @@ Håller spelarens namn och nuvarande rum.
 Metoden moveTo(Room) flyttar spelaren till ett nytt rum.
 
 Spelinstruktioner:
-Starta programmet och skriv ditt namn.
-Läs beskrivning av rummet.
-Läs vilka riktningar som finns och välj riktning.
-Navigera med n,s,v,ö (nord,söder,väst,öst).
-Om ingen navigation finns åt det valda hållet får du försöka igen.
-Försök navigera till skatten och hitta vägen ut.
-När du när sista rummet avslutas spelet med ett meddelande.
+1. Starta programmet och skriv ditt namn.
+2. Läs beskrivning av rummet.
+3. Läs vilka riktningar som finns och välj riktning.
+4. Navigera med n,s,v,ö (nord,söder,väst,öst).
+5. Om ingen navigation finns åt det valda hållet får du försöka igen.
+6. Försök navigera till skatten och hitta vägen ut.
+7. När du när sista rummet avslutas spelet med ett meddelande.
 
 Antaganden
-Spelaren kan endast gå i fyra riktningar: n, v, s och ö.
-Spelaren kan inte förlora liv. 
-Spelaren kan bara vinna spelet genom att navigera sig fram till det sista rummet.
-Vi har inte låsta dörrar, nycklar, strider etc.
-Vi hanterar inte föremål eller inventory
+- Spelaren kan endast gå i fyra riktningar: n, v, s och ö.
+- Spelaren kan inte förlora liv. 
+- Spelaren kan bara vinna spelet genom att navigera sig fram till det sista rummet.
+- Vi har inte låsta dörrar, nycklar, strider etc.
+- Vi hanterar inte föremål eller inventory.
 
 Övrigt:
 Vissa rum innehåller en drake, en skatt eller farliga platser. Dessa påverkar inte spelet logiskt i detta steg utan ger en berättelse för spelaren.

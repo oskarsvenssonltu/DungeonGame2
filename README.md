@@ -66,5 +66,6 @@ Författare:
 Oskar Svensson
 Emelie Lysell
 Eyerusalem Kelati Teweldemedhin
+Munkh-Erdene Puntsagbaljir
 
 Programutveckling med Java (D0019N)

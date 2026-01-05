@@ -18,7 +18,7 @@ public class Dungeon {
     // Slutrum som avslutar spelet
     private Room lastRoom;
 
-    // Enkel karta (2D-grid). Null betyder att inget rum finns där.
+    // Enkel karta. Null betyder att inget rum finns där.
     private Room[][] karta;
 
     // Kartans storlek
@@ -109,13 +109,13 @@ karta[4][4] = utgång;
    private void skrivKarta(Player player) {
     System.out.println("KARTA:");
 
-    // Först skapar vi en "rityta" med tecken (strings) som vi kan skriva över
+    // Först skapar vi rityta med tecken (strings) som vi kan skriva över.
     String[][] canvas = new String[KARTA_HÖJD][KARTA_BREDD];
 
     // Fyll allt som tomt först
     for (int r = 0; r < KARTA_HÖJD; r++) {
         for (int c = 0; c < KARTA_BREDD; c++) {
-            canvas[r][c] = "   "; // tre tecken brett för snyggare utskrift
+            canvas[r][c] = "   ";
         }
     }
 
@@ -133,7 +133,7 @@ karta[4][4] = utgång;
                     canvas[r][c] = "[ ]";
                 }
             } else {
-                // valfritt: visa tomma platser som [#] för debugging
+                // valfritt: visa tomma platser.
                 // canvas[r][c] = "[#]";
                 canvas[r][c] = "   ";
             }

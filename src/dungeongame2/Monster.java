@@ -64,4 +64,3 @@ public class Monster {
         return healthPoints > 0;
     }
 }
-

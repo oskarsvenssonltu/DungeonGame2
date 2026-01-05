@@ -1,48 +1,67 @@
-
 package dungeongame2;
 
 /*
- * Basklass för monster i spelet.
- * Monster har namn, hälsa och mängd skada som de gör.
+ * Basklass för alla monster i spelet.
+ * Ett monster har:
+ * - namn
+ * - hälsopoäng
+ * - skada
+ * - beskrivning
  */
 public class Monster {
 
+    // Monstrets namn
     private String name;
-    private int health;
+
+    // Hur mycket liv monstret har
+    private int healthPoints;
+
+    // Hur mycket skada monstret gör
     private int damage;
 
-    public Monster(String name, int health, int damage) {
+    // Beskrivning som visas när spelaren möter monstret
+    private String monsterDesc;
+
+    /*
+     * Konstruktor för monster
+     */
+    public Monster(String name, int healthPoints, int damage, String monsterDesc) {
         this.name = name;
-        this.health = health;
+        this.healthPoints = healthPoints;
         this.damage = damage;
+        this.monsterDesc = monsterDesc;
     }
+
+    // ===== Getters =====
 
     public String getName() {
         return name;
     }
 
-    public int getHealth() {
-        return health;
+    public int getHealthPoints() {
+        return healthPoints;
     }
 
     public int getDamage() {
         return damage;
     }
 
-    /*
-     * Tar emot skada, minskar hälsa.
-     */
-    public void takeDamage(int amount) {
-        health -= amount;
-        if (health < 0) {
-            health = 0;
-        }
+    public String getMonsterDesc() {
+        return monsterDesc;
     }
 
     /*
-     * Returnerar true om monstret dött.
+     * Minskar monstrets hälsa när det tar skada
      */
-    public boolean isDead() {
-        return health <= 0;
+    public void takeDamage(int amount) {
+        healthPoints -= amount;
+    }
+
+    /*
+     * Kollar om monstret lever
+     */
+    public boolean isAlive() {
+        return healthPoints > 0;
     }
 }
+

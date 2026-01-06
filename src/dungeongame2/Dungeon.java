@@ -9,29 +9,29 @@ import java.util.Scanner;
 
 public class Dungeon {
 
-    // Lista med alla rum i spelet (datastruktur enligt uppgiften)
+ // Lista med alla rum i spelet
     private ArrayList<Room> rooms = new ArrayList<>();
 
-    // Startrum för spelaren
+ // Startrum för spelaren
     private Room startRoom;
 
-    // Slutrum som avslutar spelet
+ // Slutrum som avslutar spelet
     private Room lastRoom;
 
-    // Enkel karta. Null betyder att inget rum finns där.
+ // Enkel karta. Null om inget rum finns där.
     private Room[][] karta;
 
-    // Kartans storlek
+// Kartans storlek
     private final int KARTA_BREDD = 5;
     private final int KARTA_HÖJD = 7;
 
-    // Sparar utgångsrummet så vi kan markera det på kartan
+// Spara utgångsrummet för karta.
     private Room utgångsRum;
-
-    // Skapar spelets rum och kopplar dem med dörrar.
+    
+// Skapar spelets rum och kopplar med dörrar.
        private void setupGame() {
 
-     // Skapar alla rum och lägger dem i listan
+// Skapar alla rum och lägger dem i listan
         rooms.add(new Room("Dörren har rasat bakom dig, du kan bara gå en väg.\n"));
         rooms.add(new Room("Du kommer in i ett mörkt rum, här vill du inte vara kvar.\n"));
         rooms.add(new Room("Du ser ett konstigt ljus genom dörren till söder,\nvågar du gå in eller tar du den säkra vägen tillbaka?\n"));
@@ -40,7 +40,7 @@ public class Dungeon {
         rooms.add(new Room("Du tog dig förbi draken. Till öster ser du en dörr i slutet av\nen lång och farlig hängbro, vågar du gå över bron?\n"));
         rooms.add(new Room("Sista rummet\n"));
 
-        // Beskrivande namn på rum
+ // Beskrivande namn på rum
         Room ingång       = rooms.get(0);
         Room mörkSal      = rooms.get(1);
         Room ljusKorridor = rooms.get(2);
@@ -49,77 +49,75 @@ public class Dungeon {
         Room hängbro      = rooms.get(5);
         Room utgång       = rooms.get(6);
 
-        // Kopplar samman rummen med dörrar i olika riktningar
-
-        // Ingång <-> Mörk sal
+           
+  // Kopplar samman rummen med dörrar i olika riktningar:
+   // Ingång <-> Mörk sal
         ingång.addDoor(new Door("s", mörkSal));
         mörkSal.addDoor(new Door("n", ingång));
 
-        // Mörk sal <-> Ljus korridor
+   // Mörk sal <-> Ljus korridor
         mörkSal.addDoor(new Door("s", ljusKorridor));
         ljusKorridor.addDoor(new Door("n", mörkSal));
 
-        // Ljus korridor <-> Skattkammare
+   // Ljus korridor <-> Skattkammare
         ljusKorridor.addDoor(new Door("s", skattkammare));
         skattkammare.addDoor(new Door("n", ljusKorridor));
 
-        // Mörk sal <-> Drakaltare
+   // Mörk sal <-> Drakaltare
         mörkSal.addDoor(new Door("ö", drakaltare));
         drakaltare.addDoor(new Door("v", mörkSal));
 
-        // Drakaltare <-> Hängbro
+   // Drakaltare <-> Hängbro
         drakaltare.addDoor(new Door("s", hängbro));
         hängbro.addDoor(new Door("n", drakaltare));
 
-        // Hängbro -> Utgång (låst dörr som kräver nyckel)
+   // Hängbro -> Utgång (låst dörr som kräver nyckel)
         hängbro.addDoor(new Door("ö", utgång, true));
 
-        // Lägger ut en nyckel i ljusKorridor så spelaren kan hitta den
+   // Lägger ut en nyckel i ljusKorridor så spelaren kan hitta den
         ljusKorridor.addItem(new Key());
 
-        // Sätter start- och slutrum
+   // Sätter start- och slutrum
         startRoom = ingång;
         lastRoom = utgång;
-
-        
-// Skapar kartan
+     
+   // Skapar kartan
        karta = new Room[KARTA_HÖJD][KARTA_BREDD];
 
-// Vertikal väg
+  // Vertikal väg
     karta[0][0] = ingång;
     karta[2][0] = mörkSal;
     karta[4][0] = ljusKorridor;
     karta[6][0] = skattkammare;
 
-// Streck åt öst från mörk sal
-karta[2][2] = drakaltare;
+ // Streck åt öst från mörk sal
+    karta[2][2] = drakaltare;
 
-// Streck ned från drakaltare
-karta[4][2] = hängbro;
+ // Streck ned från drakaltare
+    karta[4][2] = hängbro;
 
-// Slutrum åt öst från hängbron
-karta[4][4] = utgång;
+ // Slutrum åt öst från hängbron
+   karta[4][4] = utgång;
 
  // Markera utgångsrummet för kartan
-   utgångsRum = utgång;
+    utgångsRum = utgång;
     }
 
-    // Skriver ut en ASCII-karta med både rum och korridorer.
+ // Skriver ut en ASCII-karta med både rum och korridorer.
+      private void skrivKarta(Player player) {
+      System.out.println("KARTA:");
 
-   private void skrivKarta(Player player) {
-    System.out.println("KARTA:");
+ // Först skapar vi rityta med tecken (strings) som vi kan skriva över.
+     String[][] canvas = new String[KARTA_HÖJD][KARTA_BREDD];
 
-    // Först skapar vi rityta med tecken (strings) som vi kan skriva över.
-    String[][] canvas = new String[KARTA_HÖJD][KARTA_BREDD];
-
-    // Fyll allt som tomt först
-    for (int r = 0; r < KARTA_HÖJD; r++) {
+ // Fyll allt som tomt först
+     for (int r = 0; r < KARTA_HÖJD; r++) {
         for (int c = 0; c < KARTA_BREDD; c++) {
             canvas[r][c] = "   ";
         }
     }
 
-    // Rita ut rum som rutor
+  // Rita ut rum som rutor
     for (int r = 0; r < KARTA_HÖJD; r++) {
         for (int c = 0; c < KARTA_BREDD; c++) {
             if (karta[r][c] != null) {
@@ -140,18 +138,18 @@ karta[4][4] = utgång;
         }
     }
 
-// Rita korridorer mellan rum (vi tittar bara åt höger och ner för att undvika dubbla linjer)
+ // Rita korridorer mellan rum (vi tittar bara åt höger och ner för att undvika dubbla linjer)
     for (int r = 0; r < KARTA_HÖJD; r++) {
         for (int c = 0; c < KARTA_BREDD; c++) {
             Room room = karta[r][c];
             if (room == null) continue;
 
-// Öst: rita bara om rummet har en öst-dörr och det finns ett rum där
+ // Öst: rita bara om rummet har en öst-dörr och det finns ett rum där
       if (c + 2 < KARTA_BREDD && karta[r][c + 2] != null && room.hasDoor("ö")) {
     canvas[r][c + 1] = "───";
 }
 
-// Syd: rita bara om rummet har en syd-dörr och det finns ett rum där
+ // Syd: rita bara om rummet har en syd-dörr och det finns ett rum där
      if (r + 2 < KARTA_HÖJD && karta[r + 2][c] != null && room.hasDoor("s")) {
     canvas[r + 1][c] = " │ ";
 }
@@ -159,7 +157,7 @@ karta[4][4] = utgång;
         }
     }
 
-    // Skriv ut canvas (karta)
+// Skriv ut canvas (karta)
     for (int r = 0; r < KARTA_HÖJD; r++) {
         for (int c = 0; c < KARTA_BREDD; c++) {
             System.out.print(canvas[r][c]);
@@ -171,19 +169,18 @@ karta[4][4] = utgång;
 }
 
 
-    /*
-     * Startar spelet och innehåller spelloopen där spelaren interagerar.
-     */
+ // Startar spelet och innehåller spelloopen.
+     
     public void playGame() {
         Scanner scanner = new Scanner(System.in);
 
-        // Bygger upp spelets värld
+  // Bygger upp spelets värld
         setupGame();
 
-        // Introtext
+  // Introtext
         System.out.println("Välkommen till spelet!\n\nDu är nu inne i Drakarnas-borg, försök att hitta ut med livet i behåll.\n");
 
-        // Skapar spelaren i startrummet
+  // Skapar spelaren i startrummet
         System.out.print("Skriv ditt namn: ");
         Player player = new Player(scanner.nextLine(), startRoom);
 
@@ -193,24 +190,24 @@ karta[4][4] = utgång;
          boolean running = true;
 
         while (running) {
-            // Hämtar rummet spelaren är i
+  // Hämtar rummet spelaren är i
             Room current = player.getCurrentRoom();
 
-            // Skriver ut beskrivning, items och dörrar
+  // Skriver ut beskrivning, items och dörrar
             current.doNarrative();
 
-            // Läser input (kan vara riktning eller kommando)
+  // Läser input
             System.out.print("Skriv kommando (n/s/v/ö, ta <sak>, karta): ");
             String dir = scanner.nextLine().toLowerCase().trim();
             System.out.println();
 
-            // Kommando: visa karta
+  // visa karta vid "karta"
             if (dir.equals("karta")) {
                 skrivKarta(player);
                 continue;
             }
 
-            // Kommando: ta <sak>
+  // ta <sak> vid "ta"
             if (dir.startsWith("ta ")) {
                 String itemName = dir.substring(3).trim();
                 Item item = current.takeItem(itemName);
@@ -224,17 +221,17 @@ karta[4][4] = utgång;
                 continue;
             }
 
-            // Försöker gå genom dörr i vald riktning (nyckel-check genom player).
+   // Försöker gå genom dörr i vald riktning (nyckelcheck från spelare)
             Room next = current.tryDoor(dir, player);
 
-            // Om det inte finns dörr eller dörren är låst och saknar nyckel
+   // Om det inte finns dörr eller dörren är låst och saknar nyckel
             if (next == null) {
                 System.out.println("Testa igen!\n");
             } else {
-                // Flyttar spelare till nästa rum.
+    // Flyttar spelare till nästa rum.
                 player.moveTo(next);
 
-                // Kollar om spelaren nått slutrummet.
+    // Kollar om spelaren nått slutrummet.
                 if (next == lastRoom) {
                     System.out.println("Grattis " + player.getName() + " - du hittade ut! Du är bäst.");
                     running = false;

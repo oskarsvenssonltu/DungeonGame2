@@ -2,8 +2,7 @@ package dungeongame2;
 
 import java.util.ArrayList;
 
-// Klass för spelaren. Spelaren har namn, hälsopoäng, skada, väska (inv), 
-   currentRoom.
+// Klass för spelaren. Spelaren har namn, hälsopoäng, skada, väska (inv), currentRoom.
  
 public class Player {
 

@@ -20,6 +20,10 @@ public class Player {
 
     // Spelarens inventory (väska).
     private ArrayList<Item> inventory = new ArrayList<>();
+    
+    // Spelarens guld
+       private int gold;
+
 
     // Konstruktor som skapar spelare med namn och startrum.
     // standardvärden för HP och damage.
@@ -48,6 +52,11 @@ public class Player {
     public Room getCurrentRoom() {
         return currentRoom;
     }
+    
+    public int getGold() {
+    return gold;
+}
+
 
 //Setters.
 
@@ -73,13 +82,26 @@ public class Player {
         return healthPoints > 0;
     }
 
-// Inventory.
+  // Inventory.
 
-    // Lägger till ett item i inventory.
-    
-    public void addItem(Item item) {
-        inventory.add(item);
+   public void addItem(Item item) {
+    inventory.add(item);
+
+    // Om spelaren plockar upp ett vapen ökar skada.
+    if (item instanceof Weapon weapon) {
+        increaseDamage(weapon.getIncreaseDamage());
+        System.out.println(" Du utrustar " + weapon.getName()
+                + " (+" + weapon.getIncreaseDamage() + " skada)");
     }
+
+    // Om spelaren plockar upp en skatt ökar guld
+    if (item instanceof Treasure treasure) {
+        addGold(treasure.getGoldValue());
+        System.out.println(" Du plockar upp en skatt värd "
+                + treasure.getGoldValue() + " guld!");
+    }
+}
+
 
     // Kollar om spelaren har en nyckel i inventory.
   
@@ -111,4 +133,13 @@ public class Player {
     public void increaseDamage(int amount) {
         damage += amount;
     }
+    // Lägger till guld för spelare.
+    public void addGold(int amount) {
+    gold += amount;
+    
+    }
 }
+
+
+
+    

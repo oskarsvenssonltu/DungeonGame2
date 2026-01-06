@@ -2,42 +2,38 @@ package dungeongame2;
 
 import java.util.ArrayList;
 
-/*
- * Klassen Room representerar ett rum i spelet.
- * Ett rum kan innehålla beskrivning, dörrar, föremål, monster
- */
+/* Klassen Room representerar ett rum i spelet.
+   Ett rum kan innehålla beskrivning, dörrar, föremål, monster.
+*/
 
 public class Room {
 
-    // Beskrivning av rummet
+    // Beskrivning av rummet.
     private String description;
 
-    // Dörrar som leder till andra rum
+    // Dörrar som leder till andra rum.
     private ArrayList<Door> doors = new ArrayList<>();
 
-    // Föremål som finns i rummet
+    // Föremål som finns i rummet.
     private ArrayList<Item> items = new ArrayList<>();
 
-    // Monstret i rummet (eller null)
+    // Monstret i rummet (null annars).
     private Monster monster;
 
-    /*
-     * Konstruktor skapar rum med beskrivning
-     */
+// Konstruktor skapar rum med beskrivning.
+     
     public Room(String description) {
         this.description = description;
     }
 
-    // Dörrar
+     // Dörrar
      public void addDoor(Door door) {
         doors.add(door);
     }
 
-    /*
-     * True om rummet har en dörr i angiven riktning (n/s/v/ö).
-     * Används av karta för att rita korridorer.
-     */
-    public boolean hasDoor(String direction) {
+
+// True om rummet har en dörr i angiven riktning (n/s/v/ö). Används av karta för att rita korridorer.
+       public boolean hasDoor(String direction) {
         for (Door d : doors) {
             if (d.getDirection().equals(direction)) {
                 return true;
@@ -51,11 +47,8 @@ public class Room {
         items.add(item);
     }
 
-    /*
-     * Tar bort och returnerar ett föremål med visst namn.
-     * Returnerar null om föremålet inte finns.
-     */
-    public Item takeItem(String name) {
+   // Tar bort och returnerar ett föremål med visst namn. Null om föremålet inte finns.
+      public Item takeItem(String name) {
         for (int i = 0; i < items.size(); i++) {
             Item item = items.get(i);
 
@@ -67,7 +60,7 @@ public class Room {
         return null;
     }
 
-    // Monster
+  // Monster.
        public void setMonster(Monster monster) {
         this.monster = monster;
     }
@@ -80,22 +73,21 @@ public class Room {
         monster = null;
     }
 
-    // spelhändelser
-
-    // Skriver ut allt som finns i rummet
+  
+// Skriver ut allt som finns i rummet.
     
         public void doNarrative() {
 
         System.out.println(description);
 
-        // Visa monster
+        // Visa monster.
         if (monster != null && monster.isAlive()) {
             System.out.println("⚠ Du möter ett monster: " + monster.getName()
                     + " (HP: " + monster.getHealthPoints() + ")");
             System.out.println(monster.getMonsterDesc());
         }
 
-        // Visa föremål
+        // Visa föremål.
         if (!items.isEmpty()) {
             System.out.println("Du ser:");
             for (Item item : items) {
@@ -103,7 +95,7 @@ public class Room {
             }
         }
 
-        // Visa dörrar
+        // Visa dörrar.
         for (Door d : doors) {
             String status = d.isLocked() ? " (låst)" : " (öppen)";
             switch (d.getDirection()) {
@@ -117,18 +109,16 @@ public class Room {
         System.out.println();
     }
 
-    /*
-     * Startar en strid mellan spelare och monster.
-     * tills antingen spelaren eller monstret dör.
-     */
-    public void doBattle(Player player) {
+// Startar strid mellan spelare och monster tills spelaren eller monstret dör.
+       
+      public void doBattle(Player player) {
 
         // Om inget monster finns.
         if (monster == null) {
             return;
         }
 
-        // Om monstret redan är dött.
+        // Om monstret redan har dött.
         if (!monster.isAlive()) {
             monster = null;
             return;
@@ -139,10 +129,10 @@ public class Room {
         System.out.println(monster.getMonsterDesc());
         System.out.println();
 
-        // Loopar så länge både spelaren och monstret lever
+        // Loop så länge både spelaren och monstret lever.
         while (player.isAlive() && monster.isAlive()) {
 
-            // Spelaren attackerar
+            // Spelaren attackerar.
             System.out.println("Du attackerar " + monster.getName() + "!");
             monster.takeDamage(player.getDamage());
 
@@ -150,14 +140,14 @@ public class Room {
             System.out.println("Dina HP: " + player.getHealthPoints());
             System.out.println();
 
-            // Om monstret dör, avsluta striden
+            // Om monstret dör, avsluta strid.
             if (!monster.isAlive()) {
                 System.out.println(" Du besegrade " + monster.getName() + "!\n");
                 monster = null;
                 return;
             }
 
-            // Monstret attackerar
+            // Monstret attackerar.
             System.out.println(monster.getName() + " attackerar dig!");
             player.takeDamage(monster.getDamage());
 
@@ -172,26 +162,26 @@ public class Room {
         }
     }
 
-    /*
-     * Försöker gå genom dörr i vald riktning.
-     *  Om monster lever: strid först, och spelaren får försöka igen
-     *  Om dörren är låst: försök låsa upp
-     */
+    /* Försöker gå genom dörr i vald riktning.
+       Om monster lever: strid först, spelaren får försöka igen.
+       Om dörren är låst: försöker låsa upp.
+    */
+   
     public Room tryDoor(String direction, Player player) {
 
-        // Om monster finns och lever - strid 
+        // Om monster finns och lever, strid. 
         if (monster != null && monster.isAlive()) {
             System.out.println("Monstret blockerar vägen!\n");
             doBattle(player);
             return null;
         }
 
-        // Leta efter dörr i rätt riktning
+        // Leta efter dörr i rätt riktning.
         for (Door d : doors) {
             if (d.getDirection().equals(direction)) {
 
-                // Om dörren är låst försök låsa upp
-                if (d.isLocked()) {
+        // Om dörren är låst försök låsa upp
+                 if (d.isLocked()) {
                     boolean unlocked = d.tryUnlock(player);
 
                     if (!unlocked) {
@@ -206,7 +196,7 @@ public class Room {
             }
         }
 
-        // Ingen dörr i den riktningen
+        // Ingen dörr i den riktningen.
         return null;
     }
 }

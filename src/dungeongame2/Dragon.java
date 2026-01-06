@@ -1,25 +1,27 @@
 package dungeongame2;
 
+/* Dragon ärver från Monster. 
+   Den har fasta värden.
+ */
+
 public class Dragon extends Monster {
 
-   
-     // Konstruktor för Drake.
-    
-    public Dragon(String name, int healthPoints, int damage, String monsterDesc) {
-        // Vi kallar super med fast damage = 2
-        super(name, healthPoints, damage, monsterDesc);
+    // Skapar en drake med fasta värden.
+     
+    public Dragon() {
+        super(
+            "Drake",
+            18, // healthPoints
+            1,  // damage
+            "En enorm drake tornar upp sig framför dig och sprutar eld!"
+        );
     }
 
-    //Draken attackerar
-    
-    public int attack() {
-        System.out.println(getName() + " sprutar eld och gör 2 skada.");
-        return getDamage();
-    }
-
+    // Utökad beskrivning för draken.
     
     @Override
     public String getMonsterDesc() {
-        return super.getMonsterDesc() + " Den ser uråldrig och mäktig ut, men rör sig långsamt.";
+        return super.getMonsterDesc()
+                + " Den ser uråldrig och mäktig ut, men rör sig långsamt.";
     }
 }

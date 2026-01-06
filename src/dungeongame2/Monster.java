@@ -17,13 +17,17 @@ public class Monster {
 // Beskrivning som visas när spelaren möter monstret.
     private String monsterDesc;
 
-// Konstruktor för monster.
-     public Monster(String name, int healthPoints, int damage, String monsterDesc) {
+    
+ // Skapar ett monster med namn, HP, skada och beskrivning. 
+    
+    public Monster(String name, int healthPoints, int damage, String monsterDesc) {
         this.name = name;
         this.healthPoints = healthPoints;
         this.damage = damage;
         this.monsterDesc = monsterDesc;
     }
+
+    
 
  // Getters.
 
@@ -43,14 +47,20 @@ public class Monster {
         return monsterDesc;
     }
 
- // Minskar monstrets hälsa när det tar skada.
+    
+    // Kollar om monstret lever.
      
-    public void takeDamage(int amount) {
-        healthPoints -= amount;
-    }
-
- // Kollar om monstret lever.
     public boolean isAlive() {
         return healthPoints > 0;
     }
+
+    // Monstret tar skada.
+     
+    public void takeDamage(int amount) {
+        healthPoints -= amount;
+        if (healthPoints < 0) {
+            healthPoints = 0;
+        }
+    }
 }
+

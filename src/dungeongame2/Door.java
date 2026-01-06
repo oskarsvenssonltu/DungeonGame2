@@ -60,8 +60,4 @@ public class Door {
         return false;
     }
 }
-
-
-
-
             

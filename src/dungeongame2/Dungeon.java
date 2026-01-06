@@ -50,7 +50,7 @@ public class Dungeon {
         Room utgång       = rooms.get(6);
 
  // Lägg ett svärd i skattkammaren
-      // skattkammare.addItem(new Weapon("Svärd", 2));
+      mörkSal.addItem(new Weapon("Svärd", 2));
 
            
  // Kopplar samman rummen med dörrar i olika riktningar.
@@ -242,9 +242,14 @@ public class Dungeon {
 
     // Kollar om spelaren nått slutrummet.
                 if (next == lastRoom) {
-                    System.out.println("Grattis " + player.getName() + " - du hittade ut! Du är bäst.");
+                    if (player.hasTreasure()) {
+                    System.out.println(
+                            "Grattis " + player.getName() + " - du hittade ut med skatten! Du är bäst.");
+                    } else { System.out.println(
+                            "Grattis " + player.getName() + " - du hittade ut.\nMen du missade den fantastiska skatten - försök igen.");
+                            }
                     running = false;
-                }
+                } 
             }
         }
 

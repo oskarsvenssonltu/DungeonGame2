@@ -49,7 +49,7 @@ public class Dungeon {
         Room hängbro      = rooms.get(5);
         Room utgång       = rooms.get(6);
 
- // Lägg ett svärd i skattkammaren
+ // Lägg ett svärd i mörkSal
       mörkSal.addItem(new Weapon("Svärd", 2));
 
            

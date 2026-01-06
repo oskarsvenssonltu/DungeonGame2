@@ -37,5 +37,6 @@ public class Treasure extends Item {
             "      |'-._   || |'|_.-'_.-'\n"+
             "      '-._'-.|| |' `_.-'\n"+
             "           '-.||_/.-'\n");
+        }
 }
 

@@ -48,7 +48,7 @@ public class Monster {
     }
 
     
-    // Kollar om monstret lever.
+    // Returnerar true om monstret lever.
      
     public boolean isAlive() {
         return healthPoints > 0;
@@ -63,4 +63,3 @@ public class Monster {
         }
     }
 }
-

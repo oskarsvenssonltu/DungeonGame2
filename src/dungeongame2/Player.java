@@ -2,32 +2,29 @@ package dungeongame2;
 
 import java.util.ArrayList;
 
-/*
- * Klass för spelaren.
- * Spelaren har namn, hälsopoäng, skada, väska (inv), 
+// Klass för spelaren. Spelaren har namn, hälsopoäng, skada, väska (inv), 
    currentRoom.
- */
+ 
 public class Player {
 
-    // Spelarens namn
+    // Spelarens namn.
     private String name;
 
-    // Spelarens hälsa (starta på 10)
+    // Spelarens hälsa (startar på 10).
     private int healthPoints;
 
-    // Spelarens grundskada ( 1 hälsopoäng)
+    // Spelarens grundskada (1 hälsopoäng).
     private int damage;
 
-    // Rummet som spelaren befinner sig i nu
+    // Rummet som spelaren befinner sig i nu.
     private Room currentRoom;
 
-    // Spelarens inventory (väska)
+    // Spelarens inventory (väska).
     private ArrayList<Item> inventory = new ArrayList<>();
 
-    /*
-     * Konstruktor som skapar spelare med namn och startrum.
-     * standardvärden för HP och damage.
-     */
+    // Konstruktor som skapar spelare med namn och startrum.
+    // standardvärden för HP och damage.
+     
     public Player(String name, Room startRoom) {
         this.name = name;
         this.currentRoom = startRoom;
@@ -35,7 +32,7 @@ public class Player {
         this.damage = 1;
     }
 
-    //Getters
+ // Getters.
 
     public String getName() {
         return name;
@@ -53,14 +50,14 @@ public class Player {
         return currentRoom;
     }
 
-    //Setters 
+//Setters.
 
     //Flyttar spelare till nytt rum.
      
     public void moveTo(Room room) {
         this.currentRoom = room;
     }
-
+   
     // Spelare tar skada (minskar HP).
      
     public void takeDamage(int amount) {
@@ -77,7 +74,7 @@ public class Player {
         return healthPoints > 0;
     }
 
-    //Inventory
+// Inventory.
 
     // Lägger till ett item i inventory.
     
@@ -96,7 +93,7 @@ public class Player {
         return false;
     }
 
-    //Skriver ut spelarens inventory.
+    // Skriver ut spelarens inventory.
      
     public void printInventory() {
         if (inventory.isEmpty()) {
@@ -111,7 +108,7 @@ public class Player {
         System.out.println();
     }
 
-    //Ökar spelarens skada.
+    // Ökar spelarens skada.
     public void increaseDamage(int amount) {
         damage += amount;
     }

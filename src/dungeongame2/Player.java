@@ -94,11 +94,13 @@ public class Player {
                 + " (+" + weapon.getIncreaseDamage() + " skada)");
     }
 
-    // Om spelaren plockar upp en skatt ökar guld
+    // Om spelaren plockar upp en skatt ökar guld och skattens skrivs ut
     if (item instanceof Treasure treasure) {
-        addGold(treasure.getGoldValue());
-        System.out.println(" Du plockar upp en skatt värd "
-                + treasure.getGoldValue() + " guld!");
+       addGold(treasure.getGoldValue());
+       treasure.skatt();
+      // gold += ((Treasure) item).getGoldValue();
+        System.out.println("Du plockar upp en skatt värd "
+                + treasure.getGoldValue() + " guld");
     }
 }
 
@@ -113,6 +115,17 @@ public class Player {
         }
         return false;
     }
+    
+    //Kollar om spelaren har hittat skatten
+    
+    public boolean hasTreasure() {
+    for (Item item : inventory) {
+        if (item instanceof Treasure) {
+            return true;
+        }
+    }
+    return false;
+}
 
     // Skriver ut spelarens inventory.
      

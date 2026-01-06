@@ -8,9 +8,9 @@ public class Treasure extends Item {
     // Hur mycket guld skatten är värd
     private int goldValue;
 
-    public Treasure(String name, int goldValue) {
-        super(name);
-        this.goldValue = goldValue;
+    public Treasure() {
+        super("Skatt");
+        this.goldValue = 1000000;
     }
 
     public int getGoldValue() {

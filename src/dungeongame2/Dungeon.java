@@ -35,7 +35,7 @@ public class Dungeon {
         rooms.add(new Room("Dörren har rasat bakom dig, du kan bara gå en väg.\n"));
         rooms.add(new Room("Du kommer in i ett mörkt rum, här vill du inte vara kvar.\n"));
         rooms.add(new Room("Du ser ett konstigt ljus genom dörren till söder,\nvågar du gå in eller tar du den säkra vägen tillbaka?\n"));
-        rooms.add(new Room("Det starka ljuset kommer från en kista på golvet.\nTyvärr kan du inte öppna kistan förrän nästa uppdatering.\nGå tillbaka.\n"));
+        rooms.add(new Room("Du är nu i skattkammaren\nDet starka ljuset kommer från en kista på golvet."));
         rooms.add(new Room("Du kommer in till drakarnas altare.\nDet luktar bränt och du får snabbt kasta dig ned på marken för att\ninte bli träffad av den eldsprutande draken.\nTa dig till nästa rum eller gå tillbaka.\n"));
         rooms.add(new Room("Du tog dig förbi draken. Till öster ser du en dörr i slutet av\nen lång och farlig hängbro, vågar du gå över bron?\n"));
         rooms.add(new Room("Sista rummet\n"));
@@ -50,7 +50,7 @@ public class Dungeon {
         Room utgång       = rooms.get(6);
 
  // Lägg ett svärd i skattkammaren
-       skattkammare.addItem(new Weapon("Svärd", 2));
+      // skattkammare.addItem(new Weapon("Svärd", 2));
 
            
  // Kopplar samman rummen med dörrar i olika riktningar.
@@ -64,7 +64,7 @@ public class Dungeon {
         ljusKorridor.addDoor(new Door("n", mörkSal));
 
    // Ljus korridor <-> Skattkammare.
-        ljusKorridor.addDoor(new Door("s", skattkammare));
+        ljusKorridor.addDoor(new Door("s", skattkammare, true));
         skattkammare.addDoor(new Door("n", ljusKorridor));
 
    // Mörk sal <-> Drakaltare.
@@ -80,6 +80,10 @@ public class Dungeon {
 
    // Lägger ut en nyckel i ljusKorridor.
         ljusKorridor.addItem(new Key());
+        
+   // Lägger till skatten i skattkammare
+        skattkammare.addItem(new Treasure());
+
 
    // Sätter start och slutrum.
         startRoom = ingång;

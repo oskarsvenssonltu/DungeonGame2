@@ -49,6 +49,9 @@ public class Dungeon {
         Room hängbro      = rooms.get(5);
         Room utgång       = rooms.get(6);
 
+ // Lägg ett svärd i skattkammaren
+       skattkammare.addItem(new Weapon("Svärd", 2));
+
            
  // Kopplar samman rummen med dörrar i olika riktningar.
         

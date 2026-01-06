@@ -1,6 +1,6 @@
 package dungeongame2;
 
-// Basklass
+// Basklass för items.
 public abstract class Item {
 
     private String name;

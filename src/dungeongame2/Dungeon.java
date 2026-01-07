@@ -110,18 +110,18 @@ public class Dungeon {
         boolean running = true;
 
         while (running) {
+            
+            // Om spelaren är död efter tidigare strid
+            if (!player.isAlive()) {
+                running = false;
+                break;
+            }
 
             // Hämtar rummet spelaren är i.
             Room current = player.getCurrentRoom();
 
             // Skriver ut beskrivning, items, dörrar.
             current.doNarrative();
-
-            // Om spelaren är död efter tidigare strid
-            if (!player.isAlive()) {
-                running = false;
-                break;
-            }
 
             // Läser kommandon från spelare.
             System.out.print("Skriv kommando (n/s/v/ö, ta <sak>, väska): ");

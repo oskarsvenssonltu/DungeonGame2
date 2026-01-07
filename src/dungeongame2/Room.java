@@ -1,18 +1,22 @@
 package dungeongame2;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
-/* Klassen Room representerar ett rum i spelet.
-   Ett rum kan innehålla beskrivning, dörrar, föremål, monster.
-*/
-
+/*
+ * Klassen Room representerar ett rum i spelet.
+ * Ett rum kan innehålla beskrivning, dörrar, föremål, monster.
+ */
 public class Room {
 
-    // Rummets namn.
-    private String name;
+    // Rummets första text.
+    private String firstVisitDescription;
 
-    // Beskrivning av rummet.
-    private String description;
+    // Text som visas när man kommer tillbaka.
+    private String revisitDescription;
+
+    // Håller koll på om spelaren varit där förut.
+    private boolean visited = false;
 
     // Dörrar som leder till andra rum.
     private ArrayList<Door> doors = new ArrayList<>();
@@ -23,12 +27,20 @@ public class Room {
     // Monstret i rummet (null annars).
     private Monster monster;
 
-    // Konstruktor skapar rum med beskrivning.
+    // Konstruktor samma text varje gång.
     public Room(String description) {
-        this.description = description;
+        this.firstVisitDescription = description;
+        this.revisitDescription = description;
     }
 
-    // Dörrar
+    // Konstruktor olika text första gången och vid återbesök.
+    public Room(String firstVisitDescription, String revisitDescription) {
+        this.firstVisitDescription = firstVisitDescription;
+        this.revisitDescription = revisitDescription;
+    }
+
+    //Dörrar.
+
     public void addDoor(Door door) {
         doors.add(door);
     }
@@ -43,7 +55,8 @@ public class Room {
         return false;
     }
 
-    // Föremål
+    // Föremål.
+
     public void addItem(Item item) {
         items.add(item);
     }
@@ -52,7 +65,6 @@ public class Room {
     public Item takeItem(String name) {
         for (int i = 0; i < items.size(); i++) {
             Item item = items.get(i);
-
             if (item.getName().equalsIgnoreCase(name)) {
                 items.remove(i);
                 return item;
@@ -62,6 +74,7 @@ public class Room {
     }
 
     // Monster.
+
     public void setMonster(Monster monster) {
         this.monster = monster;
     }
@@ -70,19 +83,23 @@ public class Room {
         return monster;
     }
 
-    public void removeMonster() {
-        monster = null;
-    }
+    // Text. 
 
     // Skriver ut allt som finns i rummet.
     public void doNarrative() {
 
-        System.out.println(description);
+    // Rumsbeskrivning, första gången eller vid återbesök.
+        if (!visited) {
+            System.out.println(firstVisitDescription);
+            visited = true;
+        } else {
+            System.out.println(revisitDescription);
+        }
 
         // Visa monster.
         if (monster != null && monster.isAlive()) {
-            System.out.println("Du möter ett monster: " + monster.getName()
-                    + " (HP: " + monster.getHealthPoints() + ")");
+            String namn = monster.getName().toLowerCase();
+            System.out.println("Du möter " + namn + " (" + monster.getHealthPoints() + " HP).");
             System.out.println(monster.getMonsterDesc());
         }
 
@@ -108,47 +125,38 @@ public class Room {
         System.out.println();
     }
 
+    // Strid.
+
     // Startar strid mellan spelare och monster tills spelaren eller monstret dör.
-    public void doBattle(Player player) {
+    private void doBattle(Player player) {
 
-        // Om inget monster finns.
-        if (monster == null) {
-            return;
-        }
-
-        // Om monstret redan har dött.
-        if (!monster.isAlive()) {
+        if (monster == null || !monster.isAlive()) {
             monster = null;
             return;
         }
 
         System.out.println("STRID!");
-        System.out.println("Du slåss mot: " + monster.getName());
-        System.out.println(monster.getMonsterDesc());
+        System.out.println("Du slåss mot: " + monster.getName() + "!");
         System.out.println();
 
-        // Loop så länge både spelaren och monstret lever.
         while (player.isAlive() && monster.isAlive()) {
 
-            // Spelaren attackerar.
+         // Spelaren attackerar.
             System.out.println("Du attackerar " + monster.getName() + "!");
             monster.takeDamage(player.getDamage());
-
             System.out.println("Monstrets HP: " + monster.getHealthPoints());
             System.out.println("Dina HP: " + player.getHealthPoints());
             System.out.println();
 
-            // Om monstret dör, avsluta strid.
             if (!monster.isAlive()) {
-                System.out.println(" Du besegrade " + monster.getName() + "!\n");
+                System.out.println("Du besegrade " + monster.getName() + "!\n");
                 monster = null;
                 return;
             }
 
-            // Monstret attackerar.
+           // Monstret attackerar.
             System.out.println(monster.getName() + " attackerar dig!");
             player.takeDamage(monster.getDamage());
-
             System.out.println("Dina HP: " + player.getHealthPoints());
             System.out.println("Monstrets HP: " + monster.getHealthPoints());
             System.out.println();
@@ -160,42 +168,50 @@ public class Room {
         }
     }
 
-    /* Försöker gå genom dörr i vald riktning.
-       Om monster lever: strid först, spelaren får försöka igen.
-       Om dörren är låst: försöker låsa upp.
-     */
-    public Room tryDoor(String direction, Player player) {
+    // Val för spelare vid dörrar.
+    public Room tryDoor(String direction, Player player, Scanner scanner) {
 
-        // Om monster finns och lever, strid.
+     // Monster i vägen spelare gör val.
         if (monster != null && monster.isAlive()) {
-            System.out.println("Monstret blockerar vägen!\n");
-            doBattle(player);
-            return null;
+            System.out.println("Monstret stoppar dig! Vad vill du göra?");
+            System.out.println("[1] Slåss");
+            System.out.println("[2] Stå kvar");
+            System.out.print("> ");
+
+            String choice = scanner.nextLine().trim();
+
+            if (choice.equals("1")) {
+                doBattle(player);
+
+        // Om spelaren dör.
+                if (!player.isAlive()) {
+                    return this;
+                }
+
+         // Om monstret dör spelare får välja väg igen.
+                return this;
+            }
+
+          // Stå kvar.
+            System.out.println("Du står kvar och iakttar monstret...\n");
+            return this;
         }
 
         // Leta efter dörr i rätt riktning.
         for (Door d : doors) {
             if (d.getDirection().equals(direction)) {
 
-                // Om dörren är låst försök låsa upp
                 if (d.isLocked()) {
                     boolean unlocked = d.tryUnlock(player);
 
-                    if (!unlocked) {
+                 if (!unlocked) {
                         System.out.println("Dörren är låst. Du behöver en nyckel.\n");
                         return null;
                     } else {
-                        System.out.println("Du låser upp dörren med nyckeln!\n");
+                        System.out.println("Du låser upp dörren!\n");
                     }
                 }
 
-                return d.getNextRoom();
+       return d.getNextRoom();
             }
         }
-
-        // Ingen dörr i den riktningen.
-        return null;
-    }
-}
-
-

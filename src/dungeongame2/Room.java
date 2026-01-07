@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 public class Room {
 
+    // Rummets namn.
+    private String name;
+
     // Beskrivning av rummet.
     private String description;
 
@@ -20,20 +23,18 @@ public class Room {
     // Monstret i rummet (null annars).
     private Monster monster;
 
-// Konstruktor skapar rum med beskrivning.
-     
+    // Konstruktor skapar rum med beskrivning.
     public Room(String description) {
         this.description = description;
     }
 
-     // Dörrar
-     public void addDoor(Door door) {
+    // Dörrar
+    public void addDoor(Door door) {
         doors.add(door);
     }
 
-
-// True om rummet har en dörr i angiven riktning (n/s/v/ö). Används av karta för att rita korridorer.
-       public boolean hasDoor(String direction) {
+    // True om rummet har en dörr i angiven riktning (n/s/v/ö). Används av karta för att rita korridorer.
+    public boolean hasDoor(String direction) {
         for (Door d : doors) {
             if (d.getDirection().equals(direction)) {
                 return true;
@@ -43,12 +44,12 @@ public class Room {
     }
 
     // Föremål
-     public void addItem(Item item) {
+    public void addItem(Item item) {
         items.add(item);
     }
 
-   // Tar bort och returnerar ett föremål med visst namn. Null om föremålet inte finns.
-      public Item takeItem(String name) {
+    // Tar bort och returnerar ett föremål med visst namn. Null om föremålet inte finns.
+    public Item takeItem(String name) {
         for (int i = 0; i < items.size(); i++) {
             Item item = items.get(i);
 
@@ -60,8 +61,8 @@ public class Room {
         return null;
     }
 
-  // Monster.
-       public void setMonster(Monster monster) {
+    // Monster.
+    public void setMonster(Monster monster) {
         this.monster = monster;
     }
 
@@ -73,16 +74,14 @@ public class Room {
         monster = null;
     }
 
-  
-// Skriver ut allt som finns i rummet.
-    
-        public void doNarrative() {
+    // Skriver ut allt som finns i rummet.
+    public void doNarrative() {
 
         System.out.println(description);
 
         // Visa monster.
         if (monster != null && monster.isAlive()) {
-            System.out.println("⚠ Du möter ett monster: " + monster.getName()
+            System.out.println("Du möter ett monster: " + monster.getName()
                     + " (HP: " + monster.getHealthPoints() + ")");
             System.out.println(monster.getMonsterDesc());
         }
@@ -109,9 +108,8 @@ public class Room {
         System.out.println();
     }
 
-// Startar strid mellan spelare och monster tills spelaren eller monstret dör.
-       
-      public void doBattle(Player player) {
+    // Startar strid mellan spelare och monster tills spelaren eller monstret dör.
+    public void doBattle(Player player) {
 
         // Om inget monster finns.
         if (monster == null) {
@@ -124,7 +122,7 @@ public class Room {
             return;
         }
 
-        System.out.println(" STRID!");
+        System.out.println("STRID!");
         System.out.println("Du slåss mot: " + monster.getName());
         System.out.println(monster.getMonsterDesc());
         System.out.println();
@@ -165,11 +163,10 @@ public class Room {
     /* Försöker gå genom dörr i vald riktning.
        Om monster lever: strid först, spelaren får försöka igen.
        Om dörren är låst: försöker låsa upp.
-    */
-   
+     */
     public Room tryDoor(String direction, Player player) {
 
-        // Om monster finns och lever, strid. 
+        // Om monster finns och lever, strid.
         if (monster != null && monster.isAlive()) {
             System.out.println("Monstret blockerar vägen!\n");
             doBattle(player);
@@ -180,8 +177,8 @@ public class Room {
         for (Door d : doors) {
             if (d.getDirection().equals(direction)) {
 
-        // Om dörren är låst försök låsa upp
-                 if (d.isLocked()) {
+                // Om dörren är låst försök låsa upp
+                if (d.isLocked()) {
                     boolean unlocked = d.tryUnlock(player);
 
                     if (!unlocked) {
@@ -200,4 +197,5 @@ public class Room {
         return null;
     }
 }
+
 

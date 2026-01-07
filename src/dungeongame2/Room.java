@@ -2,7 +2,6 @@ package dungeongame2;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import dungeongame2.Dragon;
 
 /*
  * Klassen Room representerar ett rum i spelet.
@@ -41,14 +40,11 @@ public class Room {
     }
 
     // Dörrar.
-
     public void addDoor(Door door) {
         doors.add(door);
     }
-    
 
     // Föremål.
-
     public void addItem(Item item) {
         items.add(item);
     }
@@ -66,7 +62,6 @@ public class Room {
     }
 
     // Monster.
-
     public void setMonster(Monster monster) {
         this.monster = monster;
     }
@@ -75,12 +70,10 @@ public class Room {
         return monster;
     }
 
-    // Text.
-
     // Skriver ut allt som finns i rummet.
-    public void doNarrative() {
+        public void doNarrative() {
 
-        // Rumsbeskrivning, första gången eller vid återbesök.
+     // Rumsbeskrivning, första gången eller vid återbesök.
         if (!visited) {
             System.out.println(firstVisitDescription);
             visited = true;
@@ -88,16 +81,22 @@ public class Room {
             System.out.println(revisitDescription);
         }
 
-        // Visa monster.
+     // Visa monster.
         if (monster != null && monster.isAlive()) {
 
-        System.out.println(
-        "Du möter " + monster.getName().toLowerCase() +
-        " (" + monster.getHealthPoints() + " HP)."
-        );
-        System.out.println(monster.getMonsterDesc());
-}
-        
+            System.out.println(
+                    "Du möter " + monster.getDisplayName() +
+                    " (" + monster.getHealthPoints() + " HP)."
+            );
+
+            // Visa drak-ASCII (om monstret råkar vara en drake)
+            if (monster instanceof Dragon dragon) {
+                dragon.printDragon(); // alias-metoden som kallar printAscii()
+                System.out.println();
+            }
+
+            System.out.println(monster.getMonsterDesc());
+        }
 
         // Visa föremål.
         if (!items.isEmpty()) {
@@ -122,7 +121,6 @@ public class Room {
     }
 
     // Strid.
-
     // Startar strid mellan spelare och monster tills spelaren eller monstret dör.
     private void doBattle(Player player) {
 
@@ -132,43 +130,40 @@ public class Room {
         }
 
         System.out.println("STRID!");
-        System.out.println("Du slåss mot: " + monster.getName() + "!");
+        System.out.println("Du slåss mot: " + monster.getDisplayName() + "!");
         System.out.println();
 
         while (player.isAlive() && monster.isAlive()) {
 
-            // Spelaren attackerar.
-            System.out.println("Du attackerar " + monster.getName() + "!");
+     // Spelaren attackerar.
+            System.out.println("Du attackerar " + monster.getDisplayName() + "!");
             monster.takeDamage(player.getDamage());
             System.out.println("Monstrets HP: " + monster.getHealthPoints());
             System.out.println("Dina HP: " + player.getHealthPoints());
             System.out.println();
 
             if (!monster.isAlive()) {
-                System.out.println("Du besegrade " + monster.getName() + "!\n");
+                System.out.println("Du besegrade " + monster.getDisplayName() + "!\n");
                 monster = null;
                 return;
             }
 
-            // Monstret attackerar.
-            System.out.println(monster.getName() + " attackerar dig!");
+       // Monstret attackerar.
+            System.out.println(monster.getDisplayName() + " attackerar dig!");
             player.takeDamage(monster.getDamage());
             System.out.println("Dina HP: " + player.getHealthPoints());
             System.out.println("Monstrets HP: " + monster.getHealthPoints());
             System.out.println();
 
             if (!player.isAlive()) {
-                System.out.println("GAME OVER! Du blev besegrad av " + monster.getName() + ".\n");
+                System.out.println("GAME OVER! Du blev besegrad av " + monster.getDisplayName() + ".\n");
                 return;
             }
         }
     }
 
-    // Val för spelare vid dörrar.
-    public Room tryDoor(String direction, Player player, Scanner scanner) {
-
-        // Riktning städas lite (så " N " funkar)
-        direction = direction.trim().toLowerCase();
+       // Val för spelare vid dörrar.
+          public Room tryDoor(String direction, Player player, Scanner scanner) {
 
         // Monster i vägen spelare gör val.
         if (monster != null && monster.isAlive()) {
@@ -187,7 +182,7 @@ public class Room {
                     return this;
                 }
 
-                // Om monstret dör spelare får välja väg igen.
+         // Om monstret dör spelare får välja väg igen.
                 return this;
             }
 
@@ -197,10 +192,13 @@ public class Room {
                 return this;
             }
 
-            // Ogiltigt val.
+        // Ogiltigt val.
             System.out.println("Ogiltigt val. Du står kvar.\n");
             return this;
         }
+
+       // Städar spelares inmatning (tar bort mellanslag och gör små bokstäver).
+          direction = direction.trim().toLowerCase();
 
         // Leta efter dörr i rätt riktning.
         for (Door d : doors) {

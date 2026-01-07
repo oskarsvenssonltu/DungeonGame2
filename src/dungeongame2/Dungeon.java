@@ -3,220 +3,280 @@ package dungeongame2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*
- * Klassen Room representerar ett rum i spelet.
- * Ett rum kan innehålla beskrivning, dörrar, föremål, monster.
- */
-public class Room {
+// Klassen bygger spelet med rum, dörrar och föremål. Kör spelets huvudloop.
+public class Dungeon {
 
-    // Rummets första text.
-    private String firstVisitDescription;
+    // Lista med alla rum i spelet.
+    private ArrayList<Room> rooms = new ArrayList<>();
 
-    // Text som visas när man kommer tillbaka.
-    private String revisitDescription;
+    // Startrum för spelaren.
+    private Room startRoom;
 
-    // Håller koll på om spelaren varit där förut.
-    private boolean visited = false;
+    // Slutrum som avslutar spelet.
+    private Room lastRoom;
 
-    // Dörrar som leder till andra rum.
-    private ArrayList<Door> doors = new ArrayList<>();
+    // Enkel karta. Null om inget rum finns där.
+    private Room[][] karta;
 
-    // Föremål som finns i rummet.
-    private ArrayList<Item> items = new ArrayList<>();
+    // Kartans storlek.
+    private final int KARTA_BREDD = 5;
+    private final int KARTA_HÖJD = 7;
 
-    // Monstret i rummet (null annars).
-    private Monster monster;
+    // Spara utgångsrummet för karta.
+    private Room utgångsRum;
 
-    // Konstruktor samma text varje gång.
-    public Room(String description) {
-        this.firstVisitDescription = description;
-        this.revisitDescription = description;
+    // Skapar spelets rum och kopplar med dörrar.
+    private void setupGame() {
+        
+
+// Skapar alla rum och lägger dem i listan.
+     rooms.add(new Room("Dörren har rasat bakom dig, du kan bara gå en väg.\n"));
+     rooms.add(new Room("Du kommer in i ett mörkt rum, här vill du inte vara kvar.\n"));
+     rooms.add(new Room("Du ser ett konstigt ljus genom dörren till söder,\nvågar du gå in eller tar du den säkra vägen tillbaka?\n"));
+
+   // skattkammare första gången och när man kommer tillbaka.
+     rooms.add(new Room(
+    "Du är nu i Skattkammaren.\nDet starka ljuset kommer från en kista på golvet.\n",
+    "Du är tillbaka i Skattkammaren.\nHär ekar det tyst mellan väggarna.\n"
+   ));
+
+   // drakaltare första gången och när man kommer tillbaka.
+     rooms.add(new Room(
+    "Du kommer in till Drakarnas altare.\nDet luktar bränt och luften känns tung.\n",
+    "Du står åter i Drakarnas altare.\nBrännmärken täcker golvet och röken hänger kvar.\n"
+   ));
+
+     rooms.add(new Room("Du tog dig förbi draken. Till öster ser du en dörr i slutet av\nen lång och farlig hängbro, vågar du gå över bron?\n"));
+     rooms.add(new Room("Sista rummet\n"));
+
+
+        // Beskrivande namn på rum.
+        Room ingång       = rooms.get(0);
+        Room mörkSal      = rooms.get(1);
+        Room ljusKorridor = rooms.get(2);
+        Room skattkammare = rooms.get(3);
+        Room drakaltare   = rooms.get(4);
+        Room hängbro      = rooms.get(5);
+        Room utgång       = rooms.get(6);
+
+        // Sätter draken i rum drakaltare.
+        drakaltare.setMonster(new Dragon());
+
+        // Lägg ett svärd i mörkSal
+        mörkSal.addItem(new Weapon("Svärd", 2));
+
+        // Kopplar samman rummen med dörrar i olika riktningar.
+
+        // Ingång <-> Mörk sal.
+        ingång.addDoor(new Door("s", mörkSal));
+        mörkSal.addDoor(new Door("n", ingång));
+
+        // Mörk sal <-> Ljus korridor.
+        mörkSal.addDoor(new Door("s", ljusKorridor));
+        ljusKorridor.addDoor(new Door("n", mörkSal));
+
+        // Ljus korridor <-> Skattkammare.
+        ljusKorridor.addDoor(new Door("s", skattkammare, true));
+        skattkammare.addDoor(new Door("n", ljusKorridor));
+
+        // Mörk sal <-> Drakaltare.
+        mörkSal.addDoor(new Door("ö", drakaltare));
+        drakaltare.addDoor(new Door("v", mörkSal));
+
+        // Drakaltare <-> Hängbro.
+        drakaltare.addDoor(new Door("s", hängbro));
+        hängbro.addDoor(new Door("n", drakaltare));
+
+        // Hängbro -> Utgång (låst dörr, kräver nyckel).
+        hängbro.addDoor(new Door("ö", utgång, true));
+
+        // Lägger ut en nyckel i ljusKorridor.
+        ljusKorridor.addItem(new Key());
+
+        // Lägger till skatten i skattkammare
+        skattkammare.addItem(new Treasure());
+
+        // Sätter start och slutrum.
+        startRoom = ingång;
+        lastRoom = utgång;
+
+        // Skapar kartan.
+        karta = new Room[KARTA_HÖJD][KARTA_BREDD];
+
+        // Vertikal väg karta.
+        karta[0][0] = ingång;
+        karta[2][0] = mörkSal;
+        karta[4][0] = ljusKorridor;
+        karta[6][0] = skattkammare;
+
+        // Streck åt öst från mörk sal.
+        karta[2][2] = drakaltare;
+
+        // Streck ned från drakaltare.
+        karta[4][2] = hängbro;
+
+        // Slutrum åt öst från hängbron.
+        karta[4][4] = utgång;
+
+        // Markera utgångsrummet för karta.
+        utgångsRum = utgång;
     }
 
-    // Konstruktor olika text första gången och vid återbesök.
-    public Room(String firstVisitDescription, String revisitDescription) {
-        this.firstVisitDescription = firstVisitDescription;
-        this.revisitDescription = revisitDescription;
-    }
+    // Skriver ut en karta med rum och korridorer.
+    private void skrivKarta(Player player) {
+        System.out.println("KARTA:");
 
-    //Dörrar.
+        // Skapar rityta med tecken (strings) som vi kan skriva över.
+        String[][] canvas = new String[KARTA_HÖJD][KARTA_BREDD];
 
-    public void addDoor(Door door) {
-        doors.add(door);
-    }
-
-    // True om rummet har en dörr i angiven riktning (n/s/v/ö). Används av karta för att rita korridorer.
-    public boolean hasDoor(String direction) {
-        for (Door d : doors) {
-            if (d.getDirection().equals(direction)) {
-                return true;
+        // Fyll allt som tomt först.
+        for (int r = 0; r < KARTA_HÖJD; r++) {
+            for (int c = 0; c < KARTA_BREDD; c++) {
+                canvas[r][c] = "   ";
             }
         }
-        return false;
-    }
 
-    // Föremål.
+        // Rita ut rum som rutor.
+        for (int r = 0; r < KARTA_HÖJD; r++) {
+            for (int c = 0; c < KARTA_BREDD; c++) {
+                if (karta[r][c] != null) {
+                    Room här = karta[r][c];
 
-    public void addItem(Item item) {
-        items.add(item);
-    }
-
-    // Tar bort och returnerar ett föremål med visst namn. Null om föremålet inte finns.
-    public Item takeItem(String name) {
-        for (int i = 0; i < items.size(); i++) {
-            Item item = items.get(i);
-            if (item.getName().equalsIgnoreCase(name)) {
-                items.remove(i);
-                return item;
-            }
-        }
-        return null;
-    }
-
-    // Monster.
-
-    public void setMonster(Monster monster) {
-        this.monster = monster;
-    }
-
-    public Monster getMonster() {
-        return monster;
-    }
-
-    // Text. 
-
-    // Skriver ut allt som finns i rummet.
-    public void doNarrative() {
-
-    // Rumsbeskrivning, första gången eller vid återbesök.
-        if (!visited) {
-            System.out.println(firstVisitDescription);
-            visited = true;
-        } else {
-            System.out.println(revisitDescription);
-        }
-
-        // Visa monster.
-        if (monster != null && monster.isAlive()) {
-            String namn = monster.getName().toLowerCase();
-            System.out.println("Du möter " + namn + " (" + monster.getHealthPoints() + " HP).");
-            System.out.println(monster.getMonsterDesc());
-        }
-
-        // Visa föremål.
-        if (!items.isEmpty()) {
-            System.out.println("Du ser:");
-            for (Item item : items) {
-                System.out.println("- " + item.getName());
-            }
-        }
-
-        // Visa dörrar.
-        for (Door d : doors) {
-            String status = d.isLocked() ? " (låst)" : " (öppen)";
-            switch (d.getDirection()) {
-                case "n" -> System.out.println("Du kan gå norrut [n]" + status);
-                case "s" -> System.out.println("Du kan gå söderut [s]" + status);
-                case "v" -> System.out.println("Du kan gå västerut [v]" + status);
-                case "ö" -> System.out.println("Du kan gå österut [ö]" + status);
-            }
-        }
-
-        System.out.println();
-    }
-
-    // Strid.
-
-    // Startar strid mellan spelare och monster tills spelaren eller monstret dör.
-    private void doBattle(Player player) {
-
-        if (monster == null || !monster.isAlive()) {
-            monster = null;
-            return;
-        }
-
-        System.out.println("STRID!");
-        System.out.println("Du slåss mot: " + monster.getName() + "!");
-        System.out.println();
-
-        while (player.isAlive() && monster.isAlive()) {
-
-         // Spelaren attackerar.
-            System.out.println("Du attackerar " + monster.getName() + "!");
-            monster.takeDamage(player.getDamage());
-            System.out.println("Monstrets HP: " + monster.getHealthPoints());
-            System.out.println("Dina HP: " + player.getHealthPoints());
-            System.out.println();
-
-            if (!monster.isAlive()) {
-                System.out.println("Du besegrade " + monster.getName() + "!\n");
-                monster = null;
-                return;
-            }
-
-           // Monstret attackerar.
-            System.out.println(monster.getName() + " attackerar dig!");
-            player.takeDamage(monster.getDamage());
-            System.out.println("Dina HP: " + player.getHealthPoints());
-            System.out.println("Monstrets HP: " + monster.getHealthPoints());
-            System.out.println();
-
-            if (!player.isAlive()) {
-                System.out.println("GAME OVER! Du blev besegrad av " + monster.getName() + ".\n");
-                return;
-            }
-        }
-    }
-
-    // Val för spelare vid dörrar.
-    public Room tryDoor(String direction, Player player, Scanner scanner) {
-
-     // Monster i vägen spelare gör val.
-        if (monster != null && monster.isAlive()) {
-            System.out.println("Monstret stoppar dig! Vad vill du göra?");
-            System.out.println("[1] Slåss");
-            System.out.println("[2] Stå kvar");
-            System.out.print("> ");
-
-            String choice = scanner.nextLine().trim();
-
-            if (choice.equals("1")) {
-                doBattle(player);
-
-        // Om spelaren dör.
-                if (!player.isAlive()) {
-                    return this;
-                }
-
-         // Om monstret dör spelare får välja väg igen.
-                return this;
-            }
-
-          // Stå kvar.
-            System.out.println("Du står kvar och iakttar monstret...\n");
-            return this;
-        }
-
-        // Leta efter dörr i rätt riktning.
-        for (Door d : doors) {
-            if (d.getDirection().equals(direction)) {
-
-                if (d.isLocked()) {
-                    boolean unlocked = d.tryUnlock(player);
-
-                 if (!unlocked) {
-                        System.out.println("Dörren är låst. Du behöver en nyckel.\n");
-                        return null;
+                    if (här == player.getCurrentRoom()) {
+                        canvas[r][c] = "[X]";
+                    } else if (här == utgångsRum) {
+                        canvas[r][c] = "[E]";
                     } else {
-                        System.out.println("Du låser upp dörren!\n");
+                        canvas[r][c] = "[ ]";
                     }
+                } else {
+                    canvas[r][c] = "   ";
                 }
-
-       return d.getNextRoom();
             }
         }
 
-        return null;
+        // Rita korridorer mellan rum.
+        for (int r = 0; r < KARTA_HÖJD; r++) {
+            for (int c = 0; c < KARTA_BREDD; c++) {
+                Room room = karta[r][c];
+                if (room == null) continue;
+
+                // Öst
+                if (c + 2 < KARTA_BREDD && karta[r][c + 2] != null && room.hasDoor("ö")) {
+                    canvas[r][c + 1] = "───";
+                }
+
+                // Syd
+                if (r + 2 < KARTA_HÖJD && karta[r + 2][c] != null && room.hasDoor("s")) {
+                    canvas[r + 1][c] = " │ ";
+                }
+            }
+        }
+
+        // Skriv ut Karta (canvas).
+        for (int r = 0; r < KARTA_HÖJD; r++) {
+            for (int c = 0; c < KARTA_BREDD; c++) {
+                System.out.print(canvas[r][c]);
+            }
+            System.out.println();
+        }
+
+        System.out.println();
+    }
+
+    // Startar spelet och innehåller spelloopen.
+    public void playGame() {
+        Scanner scanner = new Scanner(System.in);
+
+        // Bygger upp spelets värld
+        setupGame();
+
+        // Introtext
+        System.out.println("Välkommen till spelet!\n\nDu är nu inne i Drakarnas-borg, försök att hitta ut med livet i behåll.\n");
+
+        // Skapar spelaren i startrummet.
+        System.out.print("Skriv ditt namn: ");
+        Player player = new Player(scanner.nextLine(), startRoom);
+
+        System.out.println();
+        System.out.printf("Välkommen %s!\n\n", player.getName());
+
+        // Loopen för spelet som körs tills spelet tar slut.
+        boolean running = true;
+
+        while (running) {
+
+            // Hämtar rummet spelaren är i.
+            Room current = player.getCurrentRoom();
+
+            // Skriver ut beskrivning, items, dörrar.
+            current.doNarrative();
+
+            // Om spelaren är död efter tidigare strid
+            if (!player.isAlive()) {
+                running = false;
+                break;
+            }
+
+            // Läser kommandon från spelare.
+            System.out.print("Skriv kommando (n/s/v/ö, ta <sak>, väska, karta): ");
+            String dir = scanner.nextLine().toLowerCase().trim();
+            System.out.println();
+
+            // visa karta vid "karta"
+            if (dir.equals("karta")) {
+                skrivKarta(player);
+                continue;
+            }
+
+            // Visa väska/ inventory
+            if (dir.equals("väska") || dir.equals("vaska") || dir.equals("inv") || dir.equals("inventory")) {
+                player.printInventory();
+                System.out.println("Guld: " + player.getGold());
+                System.out.println("HP: " + player.getHealthPoints());
+                System.out.println("Skada: " + player.getDamage() + "\n");
+                continue;
+            }
+
+            // ta <sak>.
+            if (dir.startsWith("ta ")) {
+                String itemName = dir.substring(3).trim();
+                Item item = current.takeItem(itemName);
+
+                if (item == null) {
+                    System.out.println("Det finns ingen sådan sak här.\n");
+                } else {
+                    player.addItem(item);    
+                }
+                continue;
+            }
+
+            // Försöker gå genom dörr i vald riktning.
+            // (Room hanterar monster-valet med scanner: slåss/stå kvar)
+            Room next = current.tryDoor(dir, player, scanner);
+
+            // Om det inte finns dörr eller spelaren stod kvar vid monster
+            if (next == null) {
+                System.out.println("Testa igen!\n");
+            } else {
+
+                // Flyttar spelare till nästa rum.
+                player.moveTo(next);
+
+                // Kollar om spelaren nått slutrummet.
+                if (next == lastRoom) {
+                    if (player.hasTreasure()) {
+                        System.out.println("Grattis " + player.getName() + " - du hittade ut med skatten! Du är bäst.");
+                    } else {
+                        System.out.println("Grattis " + player.getName() + " - du hittade ut.\nMen du missade den fantastiska skatten - försök igen.");
+                    }
+                    running = false;
+                }
+            }
+        }
+
+        scanner.close();
     }
 }
+
 

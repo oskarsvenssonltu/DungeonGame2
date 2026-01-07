@@ -93,7 +93,7 @@ public class Player {
         int oldDamage = damage;
         increaseDamage(weapon.getIncreaseDamage());
 
-        System.out.println("Du utrustar " + weapon.getName() + ".");
+        System.out.println("Du plockar upp " + weapon.getName() + ".");
         System.out.println("Din skada ökar från " + oldDamage + " till " + damage + ".");
     }
     

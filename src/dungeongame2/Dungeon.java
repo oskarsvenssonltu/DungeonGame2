@@ -1,3 +1,4 @@
+
 package dungeongame2;
 
 import java.util.ArrayList;
@@ -15,19 +16,9 @@ public class Dungeon {
     // Slutrum som avslutar spelet.
     private Room lastRoom;
 
-    // Enkel karta. Null om inget rum finns där.
-    private Room[][] karta;
-
-    // Kartans storlek.
-    private final int KARTA_BREDD = 5;
-    private final int KARTA_HÖJD = 7;
-
-    // Spara utgångsrummet för karta.
-    private Room utgångsRum;
-
     // Skapar spelets rum och kopplar med dörrar.
     private void setupGame() {
-        
+          
 
 // Skapar alla rum och lägger dem i listan.
      rooms.add(new Room("Dörren har rasat bakom dig, du kan bara gå en väg.\n"));
@@ -99,94 +90,16 @@ public class Dungeon {
         // Sätter start och slutrum.
         startRoom = ingång;
         lastRoom = utgång;
-
-        // Skapar kartan.
-        karta = new Room[KARTA_HÖJD][KARTA_BREDD];
-
-        // Vertikal väg karta.
-        karta[0][0] = ingång;
-        karta[2][0] = mörkSal;
-        karta[4][0] = ljusKorridor;
-        karta[6][0] = skattkammare;
-
-        // Streck åt öst från mörk sal.
-        karta[2][2] = drakaltare;
-
-        // Streck ned från drakaltare.
-        karta[4][2] = hängbro;
-
-        // Slutrum åt öst från hängbron.
-        karta[4][4] = utgång;
-
-        // Markera utgångsrummet för karta.
-        utgångsRum = utgång;
+        
     }
 
-    // Skriver ut en karta med rum och korridorer.
-    private void skrivKarta(Player player) {
-        System.out.println("KARTA:");
+        
+        // Startar spelet och innehåller spelloopen.
+        
+        public class Game {
 
-        // Skapar rityta med tecken (strings) som vi kan skriva över.
-        String[][] canvas = new String[KARTA_HÖJD][KARTA_BREDD];
-
-        // Fyll allt som tomt först.
-        for (int r = 0; r < KARTA_HÖJD; r++) {
-            for (int c = 0; c < KARTA_BREDD; c++) {
-                canvas[r][c] = "   ";
-            }
-        }
-
-        // Rita ut rum som rutor.
-        for (int r = 0; r < KARTA_HÖJD; r++) {
-            for (int c = 0; c < KARTA_BREDD; c++) {
-                if (karta[r][c] != null) {
-                    Room här = karta[r][c];
-
-                    if (här == player.getCurrentRoom()) {
-                        canvas[r][c] = "[X]";
-                    } else if (här == utgångsRum) {
-                        canvas[r][c] = "[E]";
-                    } else {
-                        canvas[r][c] = "[ ]";
-                    }
-                } else {
-                    canvas[r][c] = "   ";
-                }
-            }
-        }
-
-        // Rita korridorer mellan rum.
-        for (int r = 0; r < KARTA_HÖJD; r++) {
-            for (int c = 0; c < KARTA_BREDD; c++) {
-                Room room = karta[r][c];
-                if (room == null) continue;
-
-                // Öst
-                if (c + 2 < KARTA_BREDD && karta[r][c + 2] != null && room.hasDoor("ö")) {
-                    canvas[r][c + 1] = "───";
-                }
-
-                // Syd
-                if (r + 2 < KARTA_HÖJD && karta[r + 2][c] != null && room.hasDoor("s")) {
-                    canvas[r + 1][c] = " │ ";
-                }
-            }
-        }
-
-        // Skriv ut Karta (canvas).
-        for (int r = 0; r < KARTA_HÖJD; r++) {
-            for (int c = 0; c < KARTA_BREDD; c++) {
-                System.out.print(canvas[r][c]);
-            }
-            System.out.println();
-        }
-
-        System.out.println();
-    }
-
-    // Startar spelet och innehåller spelloopen.
-    public void playGame() {
-        Scanner scanner = new Scanner(System.in);
+        public void playGame() {
+         Scanner scanner = new Scanner(System.in);
 
         // Bygger upp spelets värld
         setupGame();
@@ -219,15 +132,10 @@ public class Dungeon {
             }
 
             // Läser kommandon från spelare.
-            System.out.print("Skriv kommando (n/s/v/ö, ta <sak>, väska, karta): ");
+            System.out.print("Skriv kommando (n/s/v/ö, ta <sak>, väska): ");
             String dir = scanner.nextLine().toLowerCase().trim();
             System.out.println();
 
-            // visa karta vid "karta"
-            if (dir.equals("karta")) {
-                skrivKarta(player);
-                continue;
-            }
 
             // Visa väska/ inventory
             if (dir.equals("väska") || dir.equals("vaska") || dir.equals("inv") || dir.equals("inventory")) {
@@ -252,10 +160,10 @@ public class Dungeon {
             }
 
             // Försöker gå genom dörr i vald riktning.
-            // (Room hanterar monster-valet med scanner: slåss/stå kvar)
+            // Room hanterar monster val med scanner, slåss eller stå kvar
             Room next = current.tryDoor(dir, player, scanner);
 
-            // Om det inte finns dörr eller spelaren stod kvar vid monster
+            // Om det inte finns dörr eller spelaren står kvar vid monster.
             if (next == null) {
                 System.out.println("Testa igen!\n");
             } else {
@@ -277,5 +185,7 @@ public class Dungeon {
 
         scanner.close();
     }
+        }
 }
+
 

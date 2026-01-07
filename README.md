@@ -36,6 +36,16 @@ Spelinstruktioner:
 6. Försök navigera till skatten och hitta vägen ut.
 7. När du när sista rummet avslutas spelet med ett meddelande.
 
+Karta över rummen
+
+[Start]
+   |
+  [ ] ––– [ ]
+   |       |
+  [ ]     [ ] –– [Utgång]
+   |
+[Skatt]
+         
 Antaganden
 - Spelaren kan endast gå i fyra riktningar: n, v, s och ö.
 - Spelaren kan inte förlora liv. 

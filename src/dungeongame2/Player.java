@@ -77,24 +77,28 @@ public class Player {
 
 
     // Returnerar true om spelaren lever.
-     
-     public boolean isAlive() {
+    
+       public boolean isAlive() {
         return healthPoints > 0;
     }
 
   // Inventory.
 
-   public void addItem(Item item) {
+    public void addItem(Item item) {
     inventory.add(item);
 
-    // Om spelaren plockar upp ett vapen ökar skada.
+    // Om spelaren plockar upp ett vapen.
+    
     if (item instanceof Weapon weapon) {
+        int oldDamage = damage;
         increaseDamage(weapon.getIncreaseDamage());
-        System.out.println(" Du utrustar " + weapon.getName()
-                + " (+" + weapon.getIncreaseDamage() + " skada)");
-    }
 
-    // Om spelaren plockar upp en skatt ökar guld och skattens skrivs ut
+        System.out.println("Du utrustar " + weapon.getName() + ".");
+        System.out.println("Din skada ökar från " + oldDamage + " till " + damage + ".");
+    }
+    
+
+    // Om spelaren plockar upp en skatt ökar guld och skattens skrivs ut.
     if (item instanceof Treasure treasure) {
        addGold(treasure.getGoldValue());
        treasure.skatt();
@@ -152,7 +156,6 @@ public class Player {
     
     }
 }
-
 
 
     

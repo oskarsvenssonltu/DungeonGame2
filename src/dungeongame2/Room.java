@@ -99,13 +99,20 @@ public class Room {
         // Visa monster.
         if (monster != null && monster.isAlive()) {
             String namn = monster.getName().toLowerCase();
-
+        
             // Liten språkfix (drake -> draken), annars "en <namn>".
             String möterText = namn.equals("drake") ? "draken" : "en " + namn;
-
+        
             System.out.println("Du möter " + möterText + " (" + monster.getHealthPoints() + " HP).");
+        
+            // Om monstret är en drake – visa ASCII-draken
+            if (monster instanceof Dragon) {
+                ((Dragon) monster).printDragon();
+            }
+        
             System.out.println(monster.getMonsterDesc());
         }
+
 
         // Visa föremål.
         if (!items.isEmpty()) {

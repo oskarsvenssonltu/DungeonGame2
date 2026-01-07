@@ -2,6 +2,7 @@ package dungeongame2;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import dungeongame2.Dragon;
 
 /*
  * Klassen Room representerar ett rum i spelet.

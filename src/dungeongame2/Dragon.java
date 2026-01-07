@@ -3,27 +3,34 @@ package dungeongame2;
 /* Dragon ärver från Monster.
    Den har fasta värden.
  */
+
 public class Dragon extends Monster {
 
-    // Skapar en drake med fasta värden.
+// Skapar en drake med fasta värden.
     public Dragon() {
         super(
             "Drake",
             18, // healthPoints
             1,  // damage
-            "En enorm drake tornar upp sig framför dig och sprutar eld!"
+            "Draken ser dig!"
         );
     }
 
-    // Utökad beskrivning för draken.
-    @Override
+  // Utökad beskrivning för draken.
+     @Override
     public String getMonsterDesc() {
-        return super.getMonsterDesc()
-                + " Den ser uråldrig och mäktig ut, men rör sig långsamt.";
-    }
+    return super.getMonsterDesc()
+            + " Den ser uråldrig och mäktig ut, men rör sig långsamt.";
+}
 
-    // Skriver ut ASCII-draken
-    public void printDragon() {
+    @Override
+    public String getDisplayName() {
+    return "Draken";
+}
+
+
+   // Skriver ut ASCII-draken.
+    public void printAscii() {
         System.out.println(
             "                                                  .~))>>\n"+
             "                                                 .~)>>\n"+
@@ -60,4 +67,12 @@ public class Dragon extends Monster {
             "                                              ~~~~\n"
         );
     }
+    
+   // Alias metod för tydlighet.
+    public void printDragon() {
+    printAscii();
 }
+
+}
+
+

@@ -28,8 +28,7 @@ public class Monster {
     }
 
     
-
- // Getters.
+// Getters.
 
     public String getName() {
         return name;
@@ -48,18 +47,22 @@ public class Monster {
     }
 
     
-    // Returnerar true om monstret lever.
+// Returnerar true om monstret lever.
      
     public boolean isAlive() {
         return healthPoints > 0;
     }
 
-    // Monstret tar skada.
-     
+ // Monstret tar skada.
     public void takeDamage(int amount) {
         healthPoints -= amount;
         if (healthPoints < 0) {
             healthPoints = 0;
         }
+    }
+
+ // Namn som används i utskrift.
+    public String getDisplayName() {
+        return name;
     }
 }

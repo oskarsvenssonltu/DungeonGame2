@@ -1,6 +1,6 @@
 # DungeonGame2
 
-DungeonGame är ett textbaserat äventyrsspel där spelaren navigerar genom en dungeon med flera sammankopplade rum. Varje rum har en beskrivning och dörrar som leder vidare i olika riktningar. Målet är att hitta vägen ut genom att välja rätt riktning i varje rum.
+DungeonGame är ett textbaserat äventyrsspel där spelaren navigerar genom en dungeon med flera sammankopplade rum. Varje rum har en beskrivning och dörrar som leder vidare i olika riktningar. Målet är att hitta vägen ut genom att välja rätt riktning i varje rum. Till skillnad från den tidigare versionen innehåller spelet nu även strider, föremål, låsta dörrar och inventory.
 
 Klassöversikt:
 DungeonGame2 (main)
@@ -22,19 +22,49 @@ doNarrative() metoden skriver ut info samt möjliga riktningar.
 Door
 Dörr mellan två rum med riktning (n,s,v,ö).
 Innehåller referens till rum som dörren leder till.
+Kan vara låst.
+Kan kräva nyckel för att öppnas.
 
 Player
 Håller spelarens namn och nuvarande rum.
 Metoden moveTo(Room) flyttar spelaren till ett nytt rum.
 
+Monster
+Basklass för fiender.
+Har namn, hälsa och skada.
+
+Dragon
+Ärver från Monster.
+En specifik typ av monster.
+
+Item
+Basklass för alla föremål.
+Kan plockas upp och lagras i spelarens inventory.
+
+Weapon
+Ärver från Item
+Ökar spelarens skada vid strid.
+
+Key
+Ärver från Item
+Används för att låsa upp låsta dörrar.
+
+Treasure
+Ärver från Item
+Skattkista som innehåller guld.
+
 Spelinstruktioner:
 1. Starta programmet och skriv ditt namn.
 2. Läs beskrivning av rummet.
-3. Läs vilka riktningar som finns och välj riktning.
+3. Se vilka alternativ som finns:
+   Tillgängliga riktningar
+   Fiender/monster
+   Föremål som kan plockas upp
 4. Navigera med n,s,v,ö (nord,söder,väst,öst).
-5. Om ingen navigation finns åt det valda hållet får du försöka igen.
-6. Försök navigera till skatten och hitta vägen ut.
-7. När du när sista rummet avslutas spelet med ett meddelande.
+5. Plocka upp föremål med ta <sak> (ta svärd, ta nyckel)
+6. Om en dörr är låst krävs en nyckel för att fortsätta.
+7. Försök navigera till skatten och hitta vägen ut.
+8. När du när sista rummet avslutas spelet med ett meddelande.
 
 Karta över rummen
 
@@ -48,26 +78,27 @@ Karta över rummen
          
 Antaganden
 - Spelaren kan endast gå i fyra riktningar: n, v, s och ö.
-- Spelaren kan inte förlora liv. 
+- Spelaren har HP och kan förlora spelet om HP når 0. 
 - Spelaren kan bara vinna spelet genom att navigera sig fram till det sista rummet.
-- Vi har inte låsta dörrar, nycklar, strider etc.
-- Vi hanterar inte föremål eller inventory.
-
-Övrigt:
-Vissa rum innehåller en drake, en skatt eller farliga platser. Dessa påverkar inte spelet logiskt i detta steg utan ger en berättelse för spelaren.
+- Spelaren kan nå sista rummet utan att ha hittat skatten.
+- Dörrar kan vara låsta och kräver nyckel för att låsas upp.
+- Samma nyckel passar till alla dörrar.
 
 Filstruktur:
 DungeonGame2.java - start
 Dungeon.java - spelvärd och huvudloop
 Room.java - rum och hantering av dörrar.
 Door.java - riktningar och kopplingar
-Player. java - spelardata
+Player.java - spelardata
+Monster.java - baskass för fienden
+Dragon.Java - specifik fiendetyp
+Item.Java - Basklass för föremål
+Weapon.java - Vapen
+Key.java - Nycklar
+Treasure.java - Skatt
 README.md - dokumentation
 
 Möjliga utökningar
-Strid mot draken.
-Skatt och föremål.
-Spelarhälsa.
 Karta.
 Alternativa vägar.
 Mer dynamiska rum.

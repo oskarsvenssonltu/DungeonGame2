@@ -48,6 +48,11 @@ public class Dungeon {
         Room drakaltare   = rooms.get(4);
         Room hängbro      = rooms.get(5);
         Room utgång       = rooms.get(6);
+        
+   
+  // Sätter draken i rum drakaltare.
+        drakaltare.setMonster(new Dragon());
+    
 
  // Lägg ett svärd i mörkSal
       mörkSal.addItem(new Weapon("Svärd", 2));
@@ -204,17 +209,42 @@ public class Dungeon {
 
   // Skriver ut beskrivning, items, dörrar.
             current.doNarrative();
+            
+            
+   // Om det finns en levande drake i rummet, starta strid.
+      if (current.getMonster() != null && current.getMonster().isAlive()) {
+       current.doBattle(player);
 
-  // Läser input.
-            System.out.print("Skriv kommando (n/s/v/ö, ta <sak>, karta): ");
+  // Om spelaren dör, avsluta spel.
+    if (!player.isAlive()) {
+        running = false;
+        continue;
+    }
+}
+        
+
+  // Läser kommandon från spelare.
+            System.out.print("Skriv kommando (n/s/v/ö, ta <sak>, väska, karta): ");
             String dir = scanner.nextLine().toLowerCase().trim();
             System.out.println();
 
   // visa karta vid "karta"
             if (dir.equals("karta")) {
                 skrivKarta(player);
-                continue;
+                continue;           
+             
             }
+            
+   // Visa väska/ inventory
+      if (dir.equals("väska") || dir.equals("vaska") || dir.equals("inv") || dir.equals("inventory")) {
+         player.printInventory();
+         System.out.println("Guld: " + player.getGold());
+         System.out.println("HP: " + player.getHealthPoints());
+         System.out.println("Skada: " + player.getDamage() + "\n");
+         continue;
+}
+
+        
 
   // ta <sak> vid "ta"
             if (dir.startsWith("ta ")) {

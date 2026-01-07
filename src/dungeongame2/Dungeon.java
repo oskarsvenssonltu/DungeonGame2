@@ -1,4 +1,3 @@
-
 package dungeongame2;
 
 import java.util.ArrayList;
@@ -18,37 +17,35 @@ public class Dungeon {
 
     // Skapar spelets rum och kopplar med dörrar.
     private void setupGame() {
-          
 
-// Skapar alla rum och lägger dem i listan.
-     rooms.add(new Room("Dörren har rasat bakom dig, du kan bara gå en väg.\n"));
-     rooms.add(new Room("Du kommer in i ett mörkt rum, här vill du inte vara kvar.\n"));
-     rooms.add(new Room("Du ser ett konstigt ljus genom dörren till söder,\nvågar du gå in eller tar du den säkra vägen tillbaka?\n"));
+        // Skapar alla rum och lägger dem i listan.
+        rooms.add(new Room("Dörren har rasat bakom dig, du kan bara gå en väg.\n"));
+        rooms.add(new Room("Du kommer in i ett mörkt rum, här vill du inte vara kvar.\n"));
+        rooms.add(new Room("Du ser ett konstigt ljus genom dörren till söder,\nvågar du gå in eller tar du den säkra vägen tillbaka?\n"));
 
-   // skattkammare första gången och när man kommer tillbaka.
-     rooms.add(new Room(
-    "Du är nu i Skattkammaren.\nDet starka ljuset kommer från en kista på golvet.\n",
-    "Du är tillbaka i Skattkammaren.\nHär ekar det tyst mellan väggarna.\n"
-   ));
+        // Skattkammare första gången och när man kommer tillbaka.
+        rooms.add(new Room(
+                "Du är nu i Skattkammaren.\nDet starka ljuset kommer från en kista på golvet.\n",
+                "Du är tillbaka i Skattkammaren.\nHär ekar det tyst mellan väggarna.\n"
+        ));
 
-   // drakaltare första gången och när man kommer tillbaka.
-     rooms.add(new Room(
-    "Du kommer in till Drakarnas altare.\nDet luktar bränt och luften känns tung.\n",
-    "Du står åter i Drakarnas altare.\nBrännmärken täcker golvet och röken hänger kvar.\n"
-   ));
+        // Drakaltare första gången och när man kommer tillbaka.
+        rooms.add(new Room(
+                "Du kommer in till Drakarnas altare.\nDet luktar bränt och luften känns tung.\n",
+                "Du står åter i Drakarnas altare.\nBrännmärken täcker golvet och röken hänger kvar.\n"
+        ));
 
-     rooms.add(new Room("Du tog dig förbi draken. Till öster ser du en dörr i slutet av\nen lång och farlig hängbro, vågar du gå över bron?\n"));
-     rooms.add(new Room("Sista rummet\n"));
-
+        rooms.add(new Room("Du tog dig förbi draken. Till öster ser du en dörr i slutet av\nen lång och farlig hängbro, vågar du gå över bron?\n"));
+        rooms.add(new Room("Sista rummet\n"));
 
         // Beskrivande namn på rum.
-        Room ingång       = rooms.get(0);
-        Room mörkSal      = rooms.get(1);
+        Room ingång = rooms.get(0);
+        Room mörkSal = rooms.get(1);
         Room ljusKorridor = rooms.get(2);
         Room skattkammare = rooms.get(3);
-        Room drakaltare   = rooms.get(4);
-        Room hängbro      = rooms.get(5);
-        Room utgång       = rooms.get(6);
+        Room drakaltare = rooms.get(4);
+        Room hängbro = rooms.get(5);
+        Room utgång = rooms.get(6);
 
         // Sätter draken i rum drakaltare.
         drakaltare.setMonster(new Dragon());
@@ -90,16 +87,11 @@ public class Dungeon {
         // Sätter start och slutrum.
         startRoom = ingång;
         lastRoom = utgång;
-        
     }
 
-        
-        // Startar spelet och innehåller spelloopen.
-        
-        public class Game {
-
-        public void playGame() {
-         Scanner scanner = new Scanner(System.in);
+    // Startar spelet och innehåller spelloopen.
+    public void playGame() {
+        Scanner scanner = new Scanner(System.in);
 
         // Bygger upp spelets värld
         setupGame();
@@ -136,8 +128,7 @@ public class Dungeon {
             String dir = scanner.nextLine().toLowerCase().trim();
             System.out.println();
 
-
-            // Visa väska/ inventory
+            // Visa väska / inventory
             if (dir.equals("väska") || dir.equals("vaska") || dir.equals("inv") || dir.equals("inventory")) {
                 player.printInventory();
                 System.out.println("Guld: " + player.getGold());
@@ -154,7 +145,7 @@ public class Dungeon {
                 if (item == null) {
                     System.out.println("Det finns ingen sådan sak här.\n");
                 } else {
-                    player.addItem(item);    
+                    player.addItem(item);
                 }
                 continue;
             }
@@ -185,7 +176,6 @@ public class Dungeon {
 
         scanner.close();
     }
-        }
 }
 
 

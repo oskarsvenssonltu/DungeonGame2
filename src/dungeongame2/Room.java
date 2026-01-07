@@ -44,16 +44,7 @@ public class Room {
     public void addDoor(Door door) {
         doors.add(door);
     }
-
-    // True om rummet har en dörr i angiven riktning (n/s/v/ö). Används av karta för att rita korridorer.
-    public boolean hasDoor(String direction) {
-        for (Door d : doors) {
-            if (d.getDirection().equals(direction)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    
 
     // Föremål.
 
@@ -98,21 +89,14 @@ public class Room {
 
         // Visa monster.
         if (monster != null && monster.isAlive()) {
-            String namn = monster.getName().toLowerCase();
-        
-            // Liten språkfix (drake -> draken), annars "en <namn>".
-            String möterText = namn.equals("drake") ? "draken" : "en " + namn;
-        
-            System.out.println("Du möter " + möterText + " (" + monster.getHealthPoints() + " HP).");
-        
-            // Om monstret är en drake – visa ASCII-draken
-            if (monster instanceof Dragon) {
-                ((Dragon) monster).printDragon();
-            }
-        
-            System.out.println(monster.getMonsterDesc());
-        }
 
+        System.out.println(
+        "Du möter " + monster.getName().toLowerCase() +
+        " (" + monster.getHealthPoints() + " HP)."
+        );
+        System.out.println(monster.getMonsterDesc());
+}
+        
 
         // Visa föremål.
         if (!items.isEmpty()) {
@@ -239,4 +223,3 @@ public class Room {
         return null;
     }
 }
-

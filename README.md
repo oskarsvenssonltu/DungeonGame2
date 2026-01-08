@@ -1,6 +1,6 @@
 # DungeonGame2
 
-DungeonGame är ett textbaserat äventyrsspel där spelaren navigerar genom en dungeon med flera sammankopplade rum. Varje rum har en beskrivning och dörrar som leder vidare i olika riktningar. Målet är att navigera genom dungeonen och hitta vägen ut. 
+DungeonGame2 är ett textbaserat äventyrsspel där spelaren navigerar genom en dungeon med flera sammankopplade rum. Varje rum har en beskrivning och dörrar som leder vidare i olika riktningar. Målet är att navigera genom dungeonen och hitta vägen ut. 
 
 Till skillnad från den tidigare versionen innehåller spelet nu:
  * Strider mot monster

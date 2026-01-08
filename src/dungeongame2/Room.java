@@ -155,7 +155,7 @@ public class Room {
                 return;
             }
 
-       // Monstret attackerar.
+   // Monstret attackerar.
             System.out.println(monster.getDisplayName() + " attackerar dig!");
             player.takeDamage(monster.getDamage());
             System.out.println("Dina HP: " + player.getHealthPoints());
@@ -168,7 +168,6 @@ public class Room {
             }
         }
     }
-
        // Val för spelare vid dörrar.
           public Room tryDoor(String direction, Player player, Scanner scanner) {
 

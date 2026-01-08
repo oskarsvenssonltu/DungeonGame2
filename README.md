@@ -45,7 +45,7 @@ Dungeon
 
 Room
 * Rum med beskrivning
-* Array lista med dörrar och visar möjliga vägar.
+* Lista med dörrar och visar möjliga vägar.
 * doNarrative() metoden skriver ut info samt möjliga riktningar.
 
 Door
@@ -96,17 +96,17 @@ Room.java - rum och hantering av dörrar.
 Door.java - riktningar och kopplingar
 Player.java - spelardata
 Monster.java - baskass för fienden
-Dragon.Java - specifik fiendetyp
-Item.Java - Basklass för föremål
+Dragon.java - specifik fiendetyp
+Item.java - Basklass för föremål
 Weapon.java - Vapen
 Key.java - Nycklar
 Treasure.java - Skatt
 README.md - dokumentation
 
 Möjliga utökningar
-Karta.
-Alternativa vägar.
-Mer dynamiska rum.
+* Karta
+* Alternativa vägar
+* Mer dynamiska rum
 
 Författare:
 Oskar Svensson

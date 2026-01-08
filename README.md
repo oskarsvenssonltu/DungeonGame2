@@ -6,7 +6,7 @@ Till skillnad från den tidigare versionen innehåller spelet nu:
  * Strider mot ett monster (drake).
  * Föremål som kan plockas upp (svärd, nyckel, skatt).
  * Låsta dörrar och en nyckel.
- * Inventory i form av väska.
+ * Inventory i form av en väska.
 
 Spelinstruktioner:
 1. Starta programmet och skriv ditt namn.
@@ -17,8 +17,9 @@ Spelinstruktioner:
    * Föremål som kan plockas upp.
 4. Navigera med n,s,v,ö (nord,söder,väst,öst).
 5. Plocka upp föremål med ta <sak> (exempel: ta svärd, ta nyckel, ta skatt).
-6. Om en dörr är låst krävs en nyckel för att fortsätta.
-7. När du når sista rummet avslutas spelet med ett meddelande.
+6. För att visa vad som finns i inventory, skriv väska.
+7. Om en dörr är låst krävs en nyckel för att fortsätta.
+8. När du når sista rummet avslutas spelet med ett meddelande.
 
 Karta över rummen
 
@@ -70,15 +71,15 @@ Item
 * Kan plockas upp och lagras i inventory.
 
 Weapon
-* Ärver från Item
+* Ärver från Item.
 * Ökar spelarens skada.
 
 Key
-* Ärver från Item
+* Ärver från Item.
 * Används för att låsa upp låsta dörrar.
 
 Treasure
-* Ärver från Item
+* Ärver från Item.
 * Innehåller guld.
          
 Antaganden
@@ -87,7 +88,8 @@ Antaganden
 - Spelaren kan bara vinna spelet genom att navigera sig fram till det sista rummet.
 - Spelaren kan nå sista rummet utan att ha hittat skatten.
 - Dörrar kan vara låsta och kräver nyckel för att låsas upp.
-- Samma nyckel passar till alla dörrar och skatten.
+- Samma nyckel passar till alla dörrar.
+- Skatten kräver ingen nyckel.
 
 Filstruktur:
 DungeonGame2.java - start

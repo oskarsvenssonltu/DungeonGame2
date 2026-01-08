@@ -72,7 +72,7 @@ Item
 
 Weapon
 * Ärver från Item.
-* Ökar spelarens skada.
+* Ökar spelarens skada mot monster
 
 Key
 * Ärver från Item.

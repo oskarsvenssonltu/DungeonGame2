@@ -18,8 +18,7 @@ Spelinstruktioner:
 4. Navigera med n,s,v,ö (nord,söder,väst,öst).
 5. Plocka upp föremål med ta <sak> (ta svärd, ta nyckel)
 6. Om en dörr är låst krävs en nyckel för att fortsätta.
-7. Försök navigera till skatten och hitta vägen ut.
-8. När du når sista rummet avslutas spelet med ett meddelande.
+7. När du når sista rummet avslutas spelet med ett meddelande.
 
 Karta över rummen
 
@@ -33,54 +32,54 @@ Karta över rummen
 
 Klassöversikt:
 DungeonGame2 (main)
-Startpunkt för programmet.
-Skapar ett Dungeon objekt och startar spelet via dungeon.playGame().
+* Startpunkt för programmet.
+* Skapar ett Dungeon objekt 
+* Startar spelet via dungeon.playGame().
 
 Dungeon
-Skapar och kopplar ihop rum.
-Kopplar ihop dörrar
-Skapar spelaren
-Kör huvudloopen
-Tar emot spelarens val och hanterar förflyttning till nytt rum.
+* Skapar och kopplar ihop rum.
+* Kopplar ihop dörrar
+* Skapar spelaren
+* Kör huvudloopen
+* Tar emot spelarens val och hanterar förflyttning.
 
 Room
-Rum med beskrivning
-Array lista med dörrar och visar möjliga vägar.
-doNarrative() metoden skriver ut info samt möjliga riktningar.
+* Rum med beskrivning
+* Array lista med dörrar och visar möjliga vägar.
+* doNarrative() metoden skriver ut info samt möjliga riktningar.
 
 Door
-Dörr mellan två rum med riktning (n,s,v,ö).
-Innehåller referens till rum som dörren leder till.
-Kan vara låst.
-Kan kräva nyckel för att öppnas.
+* Dörr mellan två rum med riktning (n,s,v,ö).
+* Innehåller referens till rum som dörren leder till.
+* Kan vara låst och kräva nyckel.
 
 Player
-Håller spelarens namn och nuvarande rum.
-Metoden moveTo(Room) flyttar spelaren till ett nytt rum.
+* Håller spelarens namn och nuvarande rum.
+* Metoden moveTo(Room) flyttar spelaren till ett nytt rum.
 
 Monster
-Basklass för fiender.
-Har namn, hälsa och skada.
+* Basklass för fiender.
+* Har namn, hälsa och skada.
 
 Dragon
-Ärver från Monster.
-En specifik typ av monster.
+* Ärver från Monster.
+* En specifik typ av monster.
 
 Item
-Basklass för alla föremål.
-Kan plockas upp och lagras i spelarens inventory.
+* Basklass för alla föremål.
+* Kan plockas upp och lagras i inventory.
 
 Weapon
-Ärver från Item
-Ökar spelarens skada vid strid.
+* Ärver från Item
+* Ökar spelarens skada.
 
 Key
-Ärver från Item
-Används för att låsa upp låsta dörrar.
+* Ärver från Item
+* Används för att låsa upp låsta dörrar.
 
 Treasure
-Ärver från Item
-Skattkista som innehåller guld.
+* Ärver från Item
+* Innehåller guld.
          
 Antaganden
 - Spelaren kan endast gå i fyra riktningar: n, v, s och ö.

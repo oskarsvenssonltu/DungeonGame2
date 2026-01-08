@@ -73,13 +73,20 @@ public class Room {
     // Skriver ut allt som finns i rummet.
         public void doNarrative() {
 
-     // Rumsbeskrivning, första gången eller vid återbesök.
-        if (!visited) {
-            System.out.println(firstVisitDescription);
-            visited = true;
-        } else {
-            System.out.println(revisitDescription);
-        }
+    // Rumsbeskrivning.
+      if (monster != null && monster.isAlive()) {
+   // Om monster lever, visa första texten.
+    System.out.println(firstVisitDescription);
+     } else {
+    // Om inget monster eller monstret är dött.
+    if (!visited) {
+        System.out.println(firstVisitDescription);
+        visited = true;
+    } else {
+        System.out.println(revisitDescription);
+    }
+}
+
 
      // Visa monster.
         if (monster != null && monster.isAlive()) {

@@ -16,7 +16,7 @@ Spelinstruktioner:
    * Fiender i rummet
    * Föremål som kan plockas upp
 4. Navigera med n,s,v,ö (nord,söder,väst,öst).
-5. Plocka upp föremål med ta <sak> (ta svärd, ta nyckel)
+5. Plocka upp föremål med ta <sak> (exempel: ta svärd, ta nyckel)
 6. Om en dörr är låst krävs en nyckel för att fortsätta.
 7. När du når sista rummet avslutas spelet med ett meddelande.
 

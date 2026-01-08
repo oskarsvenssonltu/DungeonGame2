@@ -1,6 +1,35 @@
 # DungeonGame2
 
-DungeonGame är ett textbaserat äventyrsspel där spelaren navigerar genom en dungeon med flera sammankopplade rum. Varje rum har en beskrivning och dörrar som leder vidare i olika riktningar. Målet är att hitta vägen ut genom att välja rätt riktning i varje rum. Till skillnad från den tidigare versionen innehåller spelet nu även strider, föremål, låsta dörrar och inventory.
+DungeonGame är ett textbaserat äventyrsspel där spelaren navigerar genom en dungeon med flera sammankopplade rum. Varje rum har en beskrivning och dörrar som leder vidare i olika riktningar. Målet är att navigera genom dungeonen och hitta vägen ut. 
+
+Till skillnad från den tidigare versionen innehåller spelet nu:
+ * Strider mot monster
+ * Föremål som kan plockas upp
+ * Låsta dörrar och nycklar
+ * Inventory
+
+Spelinstruktioner:
+1. Starta programmet och skriv ditt namn.
+2. Läs beskrivning av det rum du befinner dig i.
+3. Se vilka alternativ som finns:
+   * Tillgängliga riktningar
+   * Fiender i rummet
+   * Föremål som kan plockas upp
+4. Navigera med n,s,v,ö (nord,söder,väst,öst).
+5. Plocka upp föremål med ta <sak> (ta svärd, ta nyckel)
+6. Om en dörr är låst krävs en nyckel för att fortsätta.
+7. Försök navigera till skatten och hitta vägen ut.
+8. När du når sista rummet avslutas spelet med ett meddelande.
+
+Karta över rummen
+
+[Start]
+   |
+  [ ] ––– [ ]
+   |       |
+  [ ]     [ ] –– [Utgång]
+   |
+[Skatt]
 
 Klassöversikt:
 DungeonGame2 (main)
@@ -52,29 +81,6 @@ Används för att låsa upp låsta dörrar.
 Treasure
 Ärver från Item
 Skattkista som innehåller guld.
-
-Spelinstruktioner:
-1. Starta programmet och skriv ditt namn.
-2. Läs beskrivning av rummet.
-3. Se vilka alternativ som finns:
-   Tillgängliga riktningar
-   Fiender/monster
-   Föremål som kan plockas upp
-4. Navigera med n,s,v,ö (nord,söder,väst,öst).
-5. Plocka upp föremål med ta <sak> (ta svärd, ta nyckel)
-6. Om en dörr är låst krävs en nyckel för att fortsätta.
-7. Försök navigera till skatten och hitta vägen ut.
-8. När du när sista rummet avslutas spelet med ett meddelande.
-
-Karta över rummen
-
-[Start]
-   |
-  [ ] ––– [ ]
-   |       |
-  [ ]     [ ] –– [Utgång]
-   |
-[Skatt]
          
 Antaganden
 - Spelaren kan endast gå i fyra riktningar: n, v, s och ö.
